@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="laser_enabled" default="true"/>
+  <arg name="ur5_enabled" default="false"/>
+  <arg name="kinect_enabled" default="false"/>
+
+  <!-- Launch husky gazebo -->
+    <include file="$(find husky_gazebo)/launch/husky_empty_world.launch">
+      <!--arg name="world_name" value="$(find husky_gazebo)/worlds/clearpath_playpen.world"/-->
+      <arg name="world_name" value="worlds/empty.world"/>
+      <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+      <arg name="ur5_enabled" value="$(arg ur5_enabled)"/>
+      <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
+    </include>
+
+  <!-- Launch hector_slam for laser odometry and mapping -->
+    <!--include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
+
+  <!-- Run gmapping to create map -->
+    <include file="$(find husky_navigation)/launch/gmapping.launch" />
+
+  <!-- Launch robot_localization and navsat node-->
+    <include file="$(find outdoor_waypoint_nav)/launch/localization_sim.launch"/>
+
+  <!-- Run rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find outdoor_waypoint_nav)/rviz_config/model.rviz" />
+
+  <!-- Run husky_navigation to start move_base -->
+    <include file="$(find husky_navigation)/launch/move_base_nav.launch" />
+
+
+</launch>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <node pkg="outdoor_waypoint_nav" type="gps_waypoint" name="gps_waypoint" output="screen"/>
+	<param name="latitude_goal" value="49.89999900000" type="double" />
+	<param name="longitude_goal" value="9.50000000000" type="double" />
+	<!--param name="latitude_goal" value="49.8999995000" type="double" />
+	<param name="longitude_goal" value="8.89999990000" type="double" /-->
+</launch>

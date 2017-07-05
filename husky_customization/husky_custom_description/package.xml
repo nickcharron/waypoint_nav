@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>husky_custom_description</name>
+  <version>0.0.0</version>
+  <description>Template for user customization of Husky URDF</description>
+
+  <license>BSD</license>
+
+  <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>husky_description</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+  <export>
+  </export>
+</package>

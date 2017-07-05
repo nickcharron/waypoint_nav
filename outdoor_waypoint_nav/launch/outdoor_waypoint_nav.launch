@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="port" default="$(optenv HUSKY_PORT /dev/prolific)" />
+
+    <!-- Load robot description -->
+    <include file="$(find husky_description)/launch/description.launch"/>
+
+    <!-- Husky harware driver -->
+    <node pkg="husky_base" type="husky_node" name="husky_node">
+        <rosparam subst_value="true">
+            port: $(arg port)
+
+            control_frequency: 10.0
+            diagnostic_frequency: 1.0
+
+            max_acceleration: 3.0
+            max_speed: 1.0
+            wheel_diameter: 0.3555
+            polling_timeout: 10.0
+        </rosparam>
+    </node>
+
+    <!-- Differential controller parameters and basic localization -->
+    <include file="$(find husky_control)/launch/control.launch" />
+
+    <!--Teleop -->
+    <include file="$(find husky_control)/launch/teleop.launch" />
+
+    <!-- Diagnostic Aggregator -->
+    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
+        <rosparam command="load" file="$(find husky_base)/config/diagnostics.yaml"/>
+    </node>
+	
+    <!-- Launch lms1xx package -->
+    <arg name="host" default="192.168.0.14" />
+    <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">
+      <param name="host" value="$(arg host)" />
+      <param name="frame_id" value="laser_link" />
+    </node>
+
+    <!-- Launch hector_slam for laser odometry and mapping -->
+    <include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" />
+
+    <!-- Launch GPS, robot_localization and navsat -->
+    <include file="$(find outdoor_waypoint_nav)/launch/localization_run.launch"/>
+
+  <!-- Run rviz -->
+     <!-- Using standard configuration file -->
+  	<!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find husky_viz)/rviz/model.rviz" /-->
+     <!-- Using custom configuration file -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find outdoor_waypoint_nav)/rviz_config/model.rviz" />
+
+    <!-- Run husky_navigation to enable move_base -->
+    <include file="$(find husky_navigation)/launch/move_base_nav.launch" />
+
+</launch>

@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(outdoor_waypoint_nav)
+
+
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+  tf
+)
+
+catkin_package()
+
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
+add_executable(gps_waypoint src/gps_waypoint.cpp)
+add_executable(publish_waypoints src/publish_waypoints.cpp)
+target_link_libraries(gps_waypoint ${catkin_LIBRARIES})
+target_link_libraries(publish_waypoints ${catkin_LIBRARIES})
+

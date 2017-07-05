@@ -1,0 +1,9 @@
+global_costmap:
+  global_frame: odom
+  robot_base_frame: base_link
+  update_frequency: 20
+  publish_frequency: 5
+  width: 30.0
+  height: 30.0
+  static_map: true
+  rolling_window: true
