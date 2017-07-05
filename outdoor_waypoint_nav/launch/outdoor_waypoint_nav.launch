@@ -39,8 +39,11 @@
       <param name="frame_id" value="laser_link" />
     </node>
 
+    <!-- Run gmapping to create map -->
+    <include file="$(find husky_navigation)/launch/gmapping.launch" />
+
     <!-- Launch hector_slam for laser odometry and mapping -->
-    <include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" />
+    <!-- include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
 
     <!-- Launch GPS, robot_localization and navsat -->
     <include file="$(find outdoor_waypoint_nav)/launch/localization_run.launch"/>

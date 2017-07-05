@@ -2,6 +2,9 @@
 
 <launch>
     <arg name="port" default="$(optenv HUSKY_PORT /dev/prolific)" />
+    <arg name="laser_enabled" default="true"/>
+    <arg name="ur5_enabled" default="false"/>
+    <arg name="kinect_enabled" default="false"/>
 
     <!-- Load robot description -->
     <include file="$(find husky_description)/launch/description.launch"/>
@@ -39,8 +42,11 @@
       <param name="frame_id" value="laser_link" />
     </node>
 
-  <!-- Launch hector_slam for laser odometry and mapping -->
-  <include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" />
+    <!-- Run gmapping to create map -->
+    <include file="$(find husky_navigation)/launch/gmapping.launch" />
+
+    <!-- Launch hector_slam for laser odometry and mapping -->
+    <!-- include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
 
     <!-- Launch GPS, robot_localization and navsat -->
     <include file="$(find outdoor_waypoint_nav)/launch/localization_run.launch"/>
