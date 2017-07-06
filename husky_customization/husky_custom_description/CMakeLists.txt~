@@ -12,3 +12,4 @@ install(
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
+add_executable(husky_custom_description scripts/remove_top_link.sh)
