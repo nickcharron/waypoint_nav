@@ -2,10 +2,8 @@
 
 <launch>
     <arg name="port" default="$(optenv HUSKY_PORT /dev/prolific)" />
-    <arg name="laser_enabled" default="true"/>
-    <arg name="ur5_enabled" default="false"/>
-    <arg name="kinect_enabled" default="false"/>
-
+    <!--param name="top_plate" value="$(optenv HUSKY_TOP_PLATE_ENABLED false)" /-->
+    
     <!-- Load robot description -->
     <include file="$(find husky_description)/launch/description.launch"/>
 

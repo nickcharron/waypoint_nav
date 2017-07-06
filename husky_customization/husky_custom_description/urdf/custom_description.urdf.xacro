@@ -27,7 +27,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
 <robot name="husky" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)" />
-  <!--xacro:arg name="top_plate_enabled" value="$(optenv HUSKY_TOP_PLATE_ENABLED false)" /-->
+  <xacro:arg name="top_plate_enabled" default="$(optenv HUSKY_TOP_PLATE_ENABLED false)" />
   <xacro:arg name="ur5_enabled" default="$(optenv HUSKY_UR5_ENABLED false)" />
   <xacro:arg name="kinect_enabled" default="false" />
 
@@ -39,7 +39,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <!-- Insert Laser -->
 
-  <!-- COMMENT OUT FOR SIM	
+  <!-- COMMENT OUT FOR SIM -->	
+  <!--
   <link name="laser_link">
     <visual>
       <geometry>
@@ -53,7 +54,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       </geometry>
     </collision>
   </link>
-
+  
   <joint name="laser_joint" type="fixed">
     <parent link="base_link" />
     <child link="laser_link" />
@@ -62,7 +63,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   -->
 
   <!-- Insert GPS Mount -->
-  <!--
+  
   <link name="GPS_mount_link">
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0" />
@@ -80,9 +81,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <child link="GPS_mount_link" />
     <origin xyz="-0.545 -0.19 -0.02" rpy="0 0 0" />
   </joint>
-  -->
+  
   <!-- Insert GPS -->
-  <!--
+  
   <link name="GPS_link">
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0" />
@@ -100,5 +101,5 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <child link="GPS_link" />
     <origin xyz="-0.45 0 0.453" rpy="0 0 0" />
   </joint>
-  -->
+  
 </robot>
