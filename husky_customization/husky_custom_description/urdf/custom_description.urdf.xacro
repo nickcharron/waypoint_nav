@@ -82,7 +82,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <joint name="imu_joint" type="fixed">
     <parent link="base_link" />
     <child link="imu_link" />
-    <origin xyz="0 0.035 0" rpy="3.1415927 0 0" />
+    <origin xyz="0 0.170 0" rpy="3.1415927 0 0" />
   </joint>   
 
   <!-- Insert GPS Mount -->
