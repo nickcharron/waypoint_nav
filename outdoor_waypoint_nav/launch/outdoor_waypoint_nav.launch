@@ -3,13 +3,13 @@
 <launch>
 
     <!-- Run husky_bringup -->
-    <include file="$(find husky_navigation)/launch/include/husky_bringup.launch" />
+    <include file="$(find outdoor_waypoint_nav)/launch/include/husky_bringup.launch" />
 
     <!-- launch lms1xx lidar -->
-    <include file="$(find husky_navigation)/launch/include/lms1xx.launch" />
+    <include file="$(find outdoor_waypoint_nav)/launch/include/lms1xx.launch" />
 
     <!-- launch gps -->
-    <include file="$(find husky_navigation)/launch/include/gps.launch" />
+    <include file="$(find outdoor_waypoint_nav)/launch/include/gps.launch" />
 
     <!-- Launch robot_localization and navsat -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/localization_run.launch"/>
