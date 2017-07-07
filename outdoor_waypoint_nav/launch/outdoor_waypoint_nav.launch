@@ -8,6 +8,9 @@
     <!-- launch lms1xx lidar -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/lms1xx.launch" />
 
+    <!-- launch um6 imu -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/imu.launch" />
+
     <!-- launch gps -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/gps.launch" />
 

@@ -58,31 +58,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <parent link="base_link" />
     <child link="laser_link" />
     <origin xyz="0.45 0 0" rpy="3.1415927 0 0" />
-  </joint>
-  
-  <!-- Insert imu -->
-  
-  <link name="imu_link">
-    <visual>
-      <geometry>
-        <box size="0.022 0.025 0.005">
-      </geometry>
-      <material name="black">
-        <color rgba="0 0 0 1.0" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />    
-      <geometry>
-        <box size="0.022 0.025 0.005">
-      </geometry>
-    </collision>
-
-  <joint name="imu_joint" type="fixed">
-    <parent link="base_link" />
-    <child link="imu_link" />
-    <origin xyz="0 0.170 0" rpy="3.1415927 0 0" />
-  </joint>   
+  </joint>  
 
   <!-- Insert GPS Mount -->
   
