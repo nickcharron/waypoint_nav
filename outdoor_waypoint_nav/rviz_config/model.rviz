@@ -5,9 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
-        - /Odometry1
-        - /Odometry2
       Splitter Ratio: 0.5
     Tree Height: 843
   - Class: rviz/Selection
@@ -162,7 +159,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: LaserScan
@@ -179,22 +176,29 @@ Visualization Manager:
       Value: true
     - Class: rviz/Axes
       Enabled: true
+      Length: 0.5
+      Name: Map Coord Frame
+      Radius: 0.01
+      Reference Frame: map
+      Value: true
+    - Class: rviz/Axes
+      Enabled: true
       Length: 0.1
-      Name: Axes
+      Name: GPS Coord Frame
       Radius: 0.01
       Reference Frame: GPS_link
       Value: true
     - Class: rviz/Axes
       Enabled: true
       Length: 0.1
-      Name: Axes
+      Name: Laser Coord Frame
       Radius: 0.01
       Reference Frame: base_laser
       Value: true
     - Class: rviz/Axes
       Enabled: true
       Length: 0.5
-      Name: Axes
+      Name: Base Coord Frame
       Radius: 0.01
       Reference Frame: base_link
       Value: true
@@ -204,7 +208,7 @@ Visualization Manager:
       Enabled: true
       Keep: 1000
       Length: 0.5
-      Name: Odometry
+      Name: Raw Wheel Odom
       Position Tolerance: 0.1
       Topic: /husky_velocity_controller/odom
       Value: true
@@ -214,7 +218,7 @@ Visualization Manager:
       Enabled: true
       Keep: 1000
       Length: 0.5
-      Name: Odometry
+      Name: EKF Filtered Odom
       Position Tolerance: 0.1
       Topic: /odometry/filtered_map
       Value: true
@@ -223,7 +227,7 @@ Visualization Manager:
       Color Scheme: map
       Draw Behind: false
       Enabled: true
-      Name: Map
+      Name: Map - Gmapping
       Topic: /map
       Unreliable: false
       Value: true
@@ -237,7 +241,7 @@ Visualization Manager:
       Length: 0.3
       Line Style: Lines
       Line Width: 0.03
-      Name: Path
+      Name: Path Plan
       Offset:
         X: 0
         Y: 0
@@ -257,7 +261,7 @@ Visualization Manager:
       Enabled: true
       Head Length: 0.3
       Head Radius: 0.1
-      Name: Pose
+      Name: Current Goal
       Shaft Length: 1
       Shaft Radius: 0.05
       Shape: Arrow
@@ -268,7 +272,7 @@ Visualization Manager:
       Class: rviz/Polygon
       Color: 25; 255; 0
       Enabled: true
-      Name: Polygon
+      Name: Robot Footprint
       Topic: /move_base/global_costmap/footprint
       Unreliable: false
       Value: true
@@ -277,7 +281,7 @@ Visualization Manager:
       Color Scheme: map
       Draw Behind: false
       Enabled: true
-      Name: Map
+      Name: Local Costmap
       Topic: /move_base/local_costmap/costmap
       Unreliable: false
       Value: true
@@ -286,7 +290,7 @@ Visualization Manager:
       Color Scheme: map
       Draw Behind: false
       Enabled: false
-      Name: Map
+      Name: Global Costmap
       Topic: /move_base/global_costmap/costmap
       Unreliable: false
       Value: false
@@ -321,10 +325,10 @@ Visualization Manager:
         Z: 0.771605
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.8954
+      Pitch: 0.3204
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.92357
+      Yaw: 5.38857
     Saved: ~
 Window Geometry:
   Displays:
