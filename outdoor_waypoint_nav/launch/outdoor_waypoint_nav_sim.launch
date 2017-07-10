@@ -2,7 +2,7 @@
 
 <launch>
 
-  <!-- Run gmapping to create map -->
+  <!-- Run gazebo to simulate robot -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/gazebo.launch"/> 
 
   <!-- Run gmapping to create map -->
