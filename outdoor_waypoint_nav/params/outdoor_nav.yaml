@@ -47,7 +47,7 @@ ekf_se_odom: # Used only for broadcasting odom to base_link transforms
 
   imu0: imu/data
   imu0_config: [false, false, false,
-                true,  true,  false,
+                false,  false,  false,
                 false, false, false,
                 true,  true,  true,
                 true,  true,  true]
@@ -152,7 +152,7 @@ ekf_se_map:
 
   imu0: imu/data
   imu0_config: [false, false, false,
-                true,  true,  false,
+                false,  false,  false,
                 false, false, false,
                 true,  true,  true,
                 true,  true,  true]
@@ -200,10 +200,10 @@ navsat_transform:
   frequency: 30
   delay: 3.0
   magnetic_declination_radians: 0.168285  # For lat/long 43.500718, -80.546638 on Jun 1 2017
-  yaw_offset: 1.570796327  # IMU reads 0 facing magnetic north, not east
+  yaw_offset: 0.0  #1.570796327  # IMU reads 0 facing magnetic north, not east
   zero_altitude: true
   broadcast_utm_transform: true
   publish_filtered_gps: true
-  use_odometry_yaw: false
+  use_odometry_yaw: true
   wait_for_datum: false
 

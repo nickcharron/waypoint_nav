@@ -24,7 +24,7 @@
     <!-- include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
 
     <!-- Run husky_navigation to enable move_base -->
-    <include file="$(find husky_navigation)/launch/move_base_nav.launch" />
+    <!--include file="$(find husky_navigation)/launch/move_base_nav.launch" /-->
 
   <!-- Run rviz -->
      <!-- Using standard configuration file -->

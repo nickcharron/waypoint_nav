@@ -5,7 +5,7 @@
 
   <arg name="scan_topic" default="scan" />
 
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping"> <!-- output="screen"-->
     
     <!-- Setting frames -->
     <param name="odom_frame" value="odom_gmapping"/>

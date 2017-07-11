@@ -6,7 +6,7 @@
     <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" output="screen">
       <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/clearpath/gps)" />
       <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 57600)" />
-      <param name="frame_id" value="gps_link" />
+      <param name="frame_id" value="GPS_link" />
     </node>
 
     <!-- NavSat Processing -->
