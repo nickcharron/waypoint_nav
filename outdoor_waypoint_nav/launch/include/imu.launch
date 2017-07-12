@@ -12,6 +12,7 @@
   <node pkg="nodelet" type="nodelet" name="imu_manager" args="manager"/>
 
   <!-- Transforms UM6 tilted data in imu_link frame to ENU data in base_link frame -->
+
   <node pkg="nodelet" type="nodelet" name="imu_data_transformer" args="load imu_transformer/imu_transformer_nodelet imu_manager">
     <remap from="imu_in" to="imu_um6"/>
     <remap from="imu_out/data" to="imu/data_raw"/>
@@ -20,6 +21,7 @@
   </node>
 
   <!-- Filter raw gyro, accel and mag data into a usable orientation -->
+
   <node pkg="nodelet" type="nodelet" name="imu_filter" args="load imu_filter_madgwick/ImuFilterNodelet imu_manager">
     <rosparam file="$(env HUSKY_MAG_CONFIG)" />
     <rosparam>
@@ -30,7 +32,7 @@
     </rosparam>
   </node>
 
-  <node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0 0.17 0.07 3.14159 0 0 base_link imu_link 100" /> 
+  <!--node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0 0.17 0.07 3.14159 0 0 base_link imu_link 100" /--> 
 
 
 </launch>
