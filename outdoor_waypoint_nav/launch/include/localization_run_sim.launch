@@ -2,7 +2,7 @@
 <launch>
 
   <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/ekf_params.yaml" />
-  <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/navsat_params.yaml" />
+  <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/navsat_params_sim.yaml" />
   
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true"/>
 
