@@ -9,7 +9,8 @@
 
 bool collect_request = false;
 bool continue_collection = true;
-double lati_point=0, longi_point=0;
+double lati_point=0, longi_point=0, lati_last=0, longi_last=0;
+double min_coord_change = 0.00001;
 std::string end_button_sym, collect_button_sym;
 int end_button_num = 0, collect_button_num = 0;
 
@@ -76,14 +77,26 @@ int main(int argc, char** argv)
 			ros::spinOnce();
 			if(collect_request == true)
 			{
-				coordFile << lati_point << " " << longi_point << std::endl;
-				ROS_INFO("You have collected another waypoint!");
-				ROS_INFO("Press %s button to collect and store another waypoint.", collect_button_sym.c_str());
-				ROS_INFO("Press %s button to end waypoint collection.", end_button_sym.c_str());
-				std::cout << std::endl;
-				numWaypoints++;
+				// Check that there was sufficient change in position between points
+				std::cout << lati_point - lati_last << std::endl;
+				std::cout << longi_point - longi_last << std::endl;
+				if(lati_point - lati_last > min_coord_change | longi_point - longi_last > min_coord_change)
+				{
+					//write waypoint
+					ROS_INFO("You have collected another waypoint!");
+					ROS_INFO("Press %s button to collect and store another waypoint.", collect_button_sym.c_str());
+					ROS_INFO("Press %s button to end waypoint collection.", end_button_sym.c_str());
+					std::cout << std::endl;
+					numWaypoints++;
+					lati_last = lati_point;
+					longi_last = longi_point;
+				}
+				else
+				{//do not write waypoint
+				}	
 				collect_request = false; //reset
 			}
+			else{}
 			rate.sleep();
 		}
 		coordFile.close();
