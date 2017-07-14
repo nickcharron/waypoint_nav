@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- 
+	Note: 
+	 - Button mapping specific for Logitech and xbox joysticks 
+	 - You may need to remap by changing params below
+	-->
+	<arg name="collect_button_num" value="3" />
+	<arg name="collect_button_sym" value="Y" />
+	<arg name="end_button_num" value="5" />
+	<arg name="end_button_sym" value="LB" />
+	<arg name="coordinates_file_dir" value="/src/points_sim.txt" />
+
+  <!-- Run collect_gps_waypoints node -->
+  	<node pkg="outdoor_waypoint_nav" type="collect_gps_waypoints" name="collect_gps_waypoints" output="screen"/>
+			<!-- WARNING: This will replace any file in this directory with the same name.-->
+			<param name="coordinates_file" value="$(arg coordinates_file_dir)" type="string" />
+			<param name="collect_button_num" value="$(arg collect_button_num)" type="int" />
+			<param name="end_button_num" value="$(arg end_button_num)" type="int" />
+			<param name="collect_button_sym" value="$(arg collect_button_sym)" type="string" />
+			<param name="end_button_sym" value="$(arg end_button_sym)" type="string" />
+
+</launch>
+			

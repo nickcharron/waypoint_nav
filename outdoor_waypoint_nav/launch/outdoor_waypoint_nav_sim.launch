@@ -5,6 +5,9 @@
   <!-- Run gazebo to simulate robot -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/gazebo.launch"/> 
 
+  <!-- Run teleop.launch to control sim with Joystick -->
+		<include file="$(find husky_control)/launch/teleop.launch" /> 
+
   <!-- Run gmapping to create map -->
     <include file="$(find husky_navigation)/launch/gmapping.launch" />
 
