@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 		double lati=0, longi=0;
 		int count = 0;
 		double numWaypoints = 0;
-	    double latiGoal, longiGoal;
+	        double latiGoal, longiGoal;
 		double utm_x = 0, utm_y = 0;
 		float x_prev = 0, y_prev = 0;	//for determining heading goal
 		std::string utm_zone;
@@ -45,7 +45,9 @@ int main(int argc, char** argv)
 		//Count number of waypoints and check that the file opens
 		
 		ros::param::get("coordinates_file", path_local);
-    	std::string path_abs =  ros::package::getPath("outdoor_waypoint_nav") + path_local;	
+    		std::string path_abs =  ros::package::getPath("outdoor_waypoint_nav") + path_local;	
+		std::cout << path_local.c_str() << std::endl;
+		std::cout << path_abs.c_str() <<std::endl;
 		std::ifstream fileCount (path_abs.c_str());
 		if (fileCount.is_open())
 		{
@@ -63,8 +65,8 @@ int main(int argc, char** argv)
 		{ 
 	  		std::cout << "Unable to open waypoint file" << std::endl;
 	  		ROS_ERROR("Unable to open waypoint file");
-      	}
-		
+      		}
+
 		//Reading waypoints from text file and storing in vector
 		std::ifstream fileRead (path_abs.c_str());
 		for(int i=0; i<numWaypoints; i++)
