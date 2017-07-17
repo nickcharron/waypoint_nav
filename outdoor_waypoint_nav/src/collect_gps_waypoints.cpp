@@ -6,11 +6,12 @@
 #include <sensor_msgs/Joy.h>
 #include <ros/duration.h>
 #include <ros/time.h>
+#include <math.h>
 
 bool collect_request = false;
 bool continue_collection = true;
 double lati_point=0, longi_point=0, lati_last=0, longi_last=0;
-double min_coord_change = 0.00001;
+double min_coord_change = 10 * pow(10,-6);
 std::string end_button_sym, collect_button_sym;
 int end_button_num = 0, collect_button_num = 0;
 
@@ -78,9 +79,11 @@ int main(int argc, char** argv)
 			if(collect_request == true)
 			{
 				// Check that there was sufficient change in position between points
-				std::cout << lati_point - lati_last << std::endl;
-				std::cout << longi_point - longi_last << std::endl;
-				if(lati_point - lati_last > min_coord_change | longi_point - longi_last > min_coord_change)
+				// This makes the move_base navigation smoother and stops points from being collected twice
+				double difference_lat = abs((lati_point - lati_last)*pow(10,6))*pow(10,-6);
+				double difference_long = abs((longi_point - longi_last)*pow(10,6))*pow(10,-6);
+
+				if( (difference_lat > min_coord_change) || (difference_long > min_coord_change))
 				{
 					//write waypoint
 					ROS_INFO("You have collected another waypoint!");
@@ -88,11 +91,15 @@ int main(int argc, char** argv)
 					ROS_INFO("Press %s button to end waypoint collection.", end_button_sym.c_str());
 					std::cout << std::endl;
 					numWaypoints++;
+					coordFile << std::fixed << std::setprecision(8) << lati_point << " " << longi_point << std::endl;
 					lati_last = lati_point;
 					longi_last = longi_point;
 				}
 				else
 				{//do not write waypoint
+					ROS_WARN("Waypoint not saved, you have not moved enough");
+					ROS_WARN("New Latitude: %f   Last Latitude: %f \n", lati_point, lati_last );
+					ROS_WARN("New Longitude: %f   Last Longitude: %f \n", longi_point, longi_last );
 				}	
 				collect_request = false; //reset
 			}
