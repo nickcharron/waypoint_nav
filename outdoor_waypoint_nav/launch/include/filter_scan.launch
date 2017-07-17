@@ -8,3 +8,5 @@
       <param name="host" value="$(arg host)" />
       <param name="frame_id" value="laser_link" />
     </node>
+
+</launch>
