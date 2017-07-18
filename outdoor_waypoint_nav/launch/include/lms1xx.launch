@@ -15,8 +15,15 @@
       <!-- creating bounding box around robot -->
       <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="bounding_box_filter">
         <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/bounding_box_filter.yaml" />
+	<remap from="/scan" to="/scan_unfiltered" />
+	<remap from="/scan_filtered" to="/scan_filtered_bb" />
       </node>
 
       <!-- Filtering out long range scans (we do not need them) -->   
+      <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="range_filter">
+        <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/range_filter.yaml" />
+        <remap from="/scan" to="/scan_filtered_bb" />
+        <remap from="/scan_filtered" to="/scan" />
+      </node>
 
 </launch>
