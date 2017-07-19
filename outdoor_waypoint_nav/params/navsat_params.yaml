@@ -6,6 +6,6 @@ navsat_transform:
   zero_altitude: true
   broadcast_utm_transform: true
   publish_filtered_gps: true
-  use_odometry_yaw: true
+  use_odometry_yaw: false
   wait_for_datum: false
 

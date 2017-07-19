@@ -10,7 +10,7 @@
     <remap from="odometry/filtered" to="odometry/filtered_map"/>
   </node>
 
-  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" clear_params="true" output="screen">
+  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" clear_params="true" output="screen" >
       <remap from="odometry/filtered" to="odometry/filtered_map"/>
       <remap from="gps/fix" to="navsat/fix"/>
   </node>
