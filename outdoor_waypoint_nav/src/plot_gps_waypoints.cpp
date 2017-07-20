@@ -16,7 +16,7 @@ std::string utmZone, path_local_filtered, path_local_raw, path_abs_filtered, pat
 bool collect_request = false;
 bool continue_collection = true;
 std::string end_button_sym, collect_button_sym;
-int end_button_num = 0, collect_button_num = 0, numWaypoints= 0, numWaypoint_clusters= 0;
+int end_button_num = 0, collect_button_num = 0, numWaypoints= 0, numWaypoint_clusters= 0, numPoints;
 
 void raw_gps_CB(const sensor_msgs::NavSatFix gps_msg)
 {
@@ -53,9 +53,14 @@ int main(int argc, char** argv)
 		ros::Time::init();
         ros::Rate rate(5);
 	
-    // Get button numbers to collect waypoints and end collection
+    // Get params
 		ros::param::get("collect_button_num", collect_button_num);
 		ros::param::get("end_button_num", end_button_num);
+    	ros::param::get("filtered_coordinates_file", path_local_filtered);
+    	ros::param::get("raw_coordinates_file", path_local_raw);
+		ros::param::get("collect_button_sym", collect_button_sym);
+		ros::param::get("end_button_sym", end_button_sym);
+		ros::param::get("num_points", numPoints);
 
      //Subscribe to topics
         ros::Subscriber sub_gps_raw = n.subscribe("/navsat/fix", 100, raw_gps_CB);
@@ -64,9 +69,6 @@ int main(int argc, char** argv)
 
 
    //Read file path and create/open file
-    	ros::param::get("filtered_coordinates_file", path_local_filtered);
-    	ros::param::get("raw_coordinates_file", path_local_raw);
-        
 		std::string path_abs_raw =  ros::package::getPath("outdoor_waypoint_nav") + path_local_raw;	
         std::string path_abs_filtered =  ros::package::getPath("outdoor_waypoint_nav") + path_local_filtered;
 		std::ofstream coordFile_raw (path_abs_raw.c_str());
@@ -75,9 +77,7 @@ int main(int argc, char** argv)
 		ROS_INFO("Saving raw coordinates to: %s", path_abs_raw.c_str());
         ROS_INFO("Saving filtered coordinates to: %s", path_abs_filtered.c_str());
 		
-	// Give instructions:numWaypoint
-		ros::param::get("collect_button_sym", collect_button_sym);
-		ros::param::get("end_button_sym", end_button_sym);
+	// Give instructions:
 		ROS_INFO("Press %s button to collect and store waypoint.", collect_button_sym.c_str());
 		ROS_INFO("Press %s button to end waypoint collection.", end_button_sym.c_str());
 		std::cout << std::endl;
@@ -100,7 +100,7 @@ int main(int argc, char** argv)
 	                coordFile_filtered << std::fixed << std::setprecision(8) << utmX_filtered << " " << utmY_filtered << std::endl;
 					
 	                // collect 30 raw points at 5 hz
-	                for(int i=0; i<30; i++)
+	                for(int i=0; i<numPoints; i++)
 	                {
 	                    ros::spinOnce();
 	                    RobotLocalization::NavsatConversions::LLtoUTM(latiPoint_raw, longiPoint_raw, utmY_raw, utmX_raw, utmZone);
