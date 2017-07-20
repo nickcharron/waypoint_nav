@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 		double lati=0, longi=0;
 		int count = 0;
 		double numWaypoints = 0;
-	        double latiGoal, longiGoal;
+	    double latiGoal, longiGoal;
 		double utm_x = 0, utm_y = 0;
 		float x_prev = 0, y_prev = 0;	//for determining heading goal
 		std::string utm_zone;

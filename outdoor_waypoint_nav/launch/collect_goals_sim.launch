@@ -11,7 +11,7 @@
 	<arg name="collect_button_sym" value="Y" />
 	<arg name="end_button_num" value="5" />
 	<arg name="end_button_sym" value="RB" />
-	<arg name="coordinates_file_dir" value="/src/points_sim.txt" />
+	<arg name="coordinates_file_dir" value="/waypoint_files/points_sim.txt" />
 
   <!-- Run collect_gps_waypoints node -->
   	<node pkg="outdoor_waypoint_nav" type="collect_gps_waypoints" name="collect_gps_waypoints" output="screen"/>

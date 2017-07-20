@@ -11,12 +11,15 @@
 	<arg name="collect_button_sym" value="Y" />
 	<arg name="end_button_num" value="5" />
 	<arg name="end_button_sym" value="RB" />
-	<arg name="coordinates_file_dir" value="/waypoint_files/points_outdoor.txt" />
+	<arg name="filtered_coordinates_file_dir" value="/waypoint_files/plot_filtered_points.txt" />
+	<arg name="raw_coordinates_file_dir" value="/waypoint_files/plot_raw_points.txt" />
+
 
   <!-- Run collect_gps_waypoints node -->
-  	<node pkg="outdoor_waypoint_nav" type="collect_gps_waypoints" name="collect_gps_waypoints" output="screen"/>
+  	<node pkg="outdoor_waypoint_nav" type="plot_gps_waypoints" name="plot_gps_waypoints" output="screen"/>
 			<!-- WARNING: This will replace any file in this directory with the same name.-->
-			<param name="coordinates_file" value="$(arg coordinates_file_dir)" type="string" />
+			<param name="filtered_coordinates_file" value="$(arg filtered_coordinates_file_dir)" type="string" />
+			<param name="raw_coordinates_file" value="$(arg raw_coordinates_file_dir)" type="string" />
 			<param name="collect_button_num" value="$(arg collect_button_num)" type="int" />
 			<param name="end_button_num" value="$(arg end_button_num)" type="int" />
 			<param name="collect_button_sym" value="$(arg collect_button_sym)" type="string" />

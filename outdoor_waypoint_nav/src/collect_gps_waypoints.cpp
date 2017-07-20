@@ -18,13 +18,11 @@ int end_button_num = 0, collect_button_num = 0;
 void joy_CB(const sensor_msgs::Joy joy_msg)
 {
 	if(joy_msg.buttons[collect_button_num]==1)
-	//if(joy_msg.buttons[collect_button_num]==1)
 	{
 		collect_request = true;
 
 	}	
 	if(joy_msg.buttons[end_button_num]==1)
-	//if(joy_msg.buttons[end_button_num]==1)
 	{
 		ROS_INFO("end request registered");
 		continue_collection = false;
