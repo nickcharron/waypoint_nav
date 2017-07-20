@@ -48,14 +48,15 @@ void joy_CB(const sensor_msgs::Joy joy_msg)
 int main(int argc, char** argv)
 {
      // Initialize node and time
-		ros::init(argc, argv, "plot_gps_waypoints"); //initiate node called plot_gps_waypoints
-		ros::NodeHandle n;
-		ros::Time::init();
-        ros::Rate rate(5);
+	ros::init(argc, argv, "plot_gps_waypoints"); //initiate node called plot_gps_waypoints
+	ros::NodeHandle n;
+	ros::Time::init();
+        ros::Rate rate1(1);
+	ros::Rate rate2(20);
 	
     // Get params
-		ros::param::get("collect_button_num", collect_button_num);
-		ros::param::get("end_button_num", end_button_num);
+	ros::param::get("collect_button_num", collect_button_num);
+	ros::param::get("end_button_num", end_button_num);
     	ros::param::get("filtered_coordinates_file", path_local_filtered);
     	ros::param::get("raw_coordinates_file", path_local_raw);
 		ros::param::get("collect_button_sym", collect_button_sym);
@@ -106,7 +107,7 @@ int main(int argc, char** argv)
 	                    RobotLocalization::NavsatConversions::LLtoUTM(latiPoint_raw, longiPoint_raw, utmY_raw, utmX_raw, utmZone);
 	                    coordFile_raw << std::fixed << std::setprecision(8) << utmX_raw << " " << utmY_raw << std::endl;
 						numWaypoints++;
-	                    rate.sleep(); //rate set to 5 hz
+	                    rate2.sleep(); //rate set to 20 hz
 	                }
 					
 					ROS_INFO("You have collected another waypoint cluster!");
@@ -115,7 +116,7 @@ int main(int argc, char** argv)
 					collect_request = false; //reset
 				}
 				else{}
-			rate.sleep();
+			rate1.sleep();
 			}
 		}
 		else

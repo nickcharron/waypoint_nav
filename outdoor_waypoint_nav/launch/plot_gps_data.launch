@@ -13,7 +13,7 @@
 	<arg name="end_button_sym" value="RB" />
 	<arg name="filtered_coordinates_file_dir" value="/waypoint_files/plot_filtered_points.txt" />
 	<arg name="raw_coordinates_file_dir" value="/waypoint_files/plot_raw_points.txt" />
-	<arg name="num_points" value="50" />
+	<arg name="num_points" value="200" />
 
 
   <!-- Run collect_gps_waypoints node -->
