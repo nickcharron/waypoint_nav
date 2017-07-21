@@ -7,6 +7,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <tf/transform_listener.h>
 #include <math.h>
+#include <sensor_msgs/Joy.h>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient; //create a type definition for a client called MoveBaseClient
 int waypointCount = 0;
@@ -42,13 +43,13 @@ int main(int argc, char** argv)
 		float x_prev = 0, y_prev = 0;	//for determining heading goal
 		std::string utm_zone;
 		std::string path_local;
-		sensor_msgs::Joy joy_collect_scan
+		sensor_msgs::Joy joy_collect_scan;
 		int buttonNo = 0;
 
 		// Build joy message
 		ros::param::get("buttonNo", buttonNo);
-        joy_collect_scan.buttons.clear();
-		joy_collect_scan[buttonNo]=1;
+        	joy_collect_scan.buttons.clear();
+		joy_collect_scan.buttons[buttonNo]=1;
 
 		//Count number of waypoints and check that the file opens
 		
@@ -142,7 +143,6 @@ int main(int argc, char** argv)
 		        //return;
 	    	  }
 		  }
-<param name="buttonNo" value="$(arg collect_scan_but)"/>
     	//Send goal to move_base
 		  //Specify what frame we want the goal to be published in 
 		  goal.target_pose.header.frame_id = "odom"; 
@@ -183,7 +183,7 @@ int main(int argc, char** argv)
 		  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
 		  {
 		    ROS_INFO("Husky has reached its goal!");	
-			ROS_INFO("Performing scan...")
+			ROS_INFO("Performing scan...");
 			// publish collection request (button 1 on joystick)
 			pub_joy_request.publish(joy_collect_scan);
 			//switch to next waypoint and repeat
