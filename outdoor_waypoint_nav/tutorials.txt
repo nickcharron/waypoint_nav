@@ -1,5 +1,0 @@
-http://wiki.ros.org/navigation/Tutorials/RobotSetup
-
-http://wiki.ros.org/navigation
-
-http://wiki.ros.org/move_base
