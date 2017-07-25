@@ -4,10 +4,18 @@
   <group ns="gps">
     <!-- NavSat Serial -->
     <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" output="screen">
+      <!-- for Garmin GPS -->
+	<!--
+      <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/ftdi_FTVBIBT1)" />
+      <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 19200)" />
+     	-->
+      <!-- For Novatel GPS -->
       <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/clearpath/gps)" />
       <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 57600)" />
+      
       <param name="frame_id" value="GPS_link" />
-    </node>
+ 
+   </node>
 
     <!-- NavSat Processing -->
     <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver">
