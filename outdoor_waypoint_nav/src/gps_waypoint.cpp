@@ -124,11 +124,12 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
 	goal.target_pose.pose.position.x = map_point.point.x; //specify x goal
 	goal.target_pose.pose.position.y = map_point.point.y; //specify y goal
 
-	tf::Matrix3x3 rot_euler;
-	tf::Quaternion rot_quat;
-
+	// Specify heading goal using current goal and next goal (point robot towards its next goal once it has achieved its current goal)
 	if(last_point == false)
 	{
+		tf::Matrix3x3 rot_euler;
+		tf::Quaternion rot_quat;
+
 		// Calculate quaternion
 		float x_curr = map_point.point.x, y_curr = map_point.point.y; // set current coords.
 		float x_next = map_next.point.x, y_next = map_next.point.y; // set coords. of next waypoint
@@ -147,13 +148,7 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
 	}
 	else
 	{
-		rot_euler.setEulerYPR(0,0,0);
-		rot_euler.getRotation(rot_quat);
-		  
-		goal.target_pose.pose.orientation.x = rot_quat.getX();
-		goal.target_pose.pose.orientation.y = rot_quat.getY();		  
-		goal.target_pose.pose.orientation.z = rot_quat.getZ();
-		goal.target_pose.pose.orientation.w = rot_quat.getW();
+		goal.target_pose.pose.orientation.w = 1.0;
 	}	
 	
 	return goal;
@@ -192,7 +187,7 @@ int main(int argc, char** argv)
 		  bool final_point = false;
 		  
 		  //set next goal point if not at last waypoint
-		  if(iter != waypointVect.end())
+		  if(iter < (waypointVect.end()-1))
 		  {
 			  iter++;
 			  latiNext = iter->first;
