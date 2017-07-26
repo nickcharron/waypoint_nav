@@ -1,0 +1,11 @@
+navsat_transform:
+  frequency: 30
+  delay: 3.0
+  magnetic_declination_radians:  -0.168285 #0.447440274630783 #0.168285  # For lat/long 43.500718, -80.546638 on Jun 1 2017
+  yaw_offset: -1.570796
+  zero_altitude: true
+  broadcast_utm_transform: true
+  publish_filtered_gps: true
+  use_odometry_yaw: false
+  wait_for_datum: false
+

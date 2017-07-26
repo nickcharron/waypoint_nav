@@ -12,6 +12,7 @@
 
 double latiPoint_raw = 0, longiPoint_raw = 0, latiPoint_filtered = 0, longiPoint_filtered = 0;
 double utmX_raw = 0, utmY_raw = 0, utmX_filtered = 0, utmY_filtered = 0;
+double collection_time;
 std::string utmZone, path_local_filtered, path_local_raw, path_abs_filtered, path_abs_raw;
 bool collect_request = false;
 bool continue_collection = true;
@@ -48,21 +49,23 @@ void joy_CB(const sensor_msgs::Joy joy_msg)
 int main(int argc, char** argv)
 {
      // Initialize node and time
-	ros::init(argc, argv, "plot_gps_waypoints"); //initiate node called plot_gps_waypoints
-	ros::NodeHandle n;
-	ros::Time::init();
-        ros::Rate rate1(1);
-	ros::Rate rate2(20);
+		ros::init(argc, argv, "plot_gps_waypoints"); //initiate node called plot_gps_waypoints
+		ros::NodeHandle n;
 	
     // Get params
-	ros::param::get("collect_button_num", collect_button_num);
-	ros::param::get("end_button_num", end_button_num);
+		ros::param::get("collect_button_num", collect_button_num);
+		ros::param::get("end_button_num", end_button_num);
     	ros::param::get("filtered_coordinates_file", path_local_filtered);
     	ros::param::get("raw_coordinates_file", path_local_raw);
 		ros::param::get("collect_button_sym", collect_button_sym);
 		ros::param::get("end_button_sym", end_button_sym);
 		ros::param::get("num_points", numPoints);
+		ros::param::get("collection_time", collection_time);
 
+    // Initialize time and set rates
+		ros::Time::init();
+        ros::Rate rate1(1);
+		
      //Subscribe to topics
         ros::Subscriber sub_gps_raw = n.subscribe("/navsat/fix", 100, raw_gps_CB);
         ros::Subscriber sub_gps_filtered = n.subscribe("/gps/filtered", 100, filtered_gps_CB);
@@ -107,7 +110,8 @@ int main(int argc, char** argv)
 	                    RobotLocalization::NavsatConversions::LLtoUTM(latiPoint_raw, longiPoint_raw, utmY_raw, utmX_raw, utmZone);
 	                    coordFile_raw << std::fixed << std::setprecision(8) << utmX_raw << " " << utmY_raw << std::endl;
 						numWaypoints++;
-	                    rate2.sleep(); //rate set to 20 hz
+						ROS_INFO("Collected GPS Point Number %d.", numWaypoints);
+	                    ros::Duration(collection_time).sleep(); 
 	                }
 					
 					ROS_INFO("You have collected another waypoint cluster!");

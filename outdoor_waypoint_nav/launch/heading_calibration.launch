@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <node name="calibrate_heading" pkg="outdoor_waypoint_nav" type="calibrate_heading" output="screen" />
+    <!-- set x linear velocity (m/s) -->
+    <param name="x_vel" value="0.5" />
+    <!-- set how long to publish velocity command (s) -->
+    <param name="x_vel_time" value="10" />
+    <!-- Set all navsat parameters to be written to params file -->
+    <param name="frequency" value="30" />
+    <param name="delay" value="3.0" />
+    <param name="magnetic_declination_radians" value="-0.168285" />
+    <param name="yaw_offset" value="-1.570796" />
+    <param name="zero_altitude" value="true" />
+    <param name="broadcast_utm_transform" value="true" />
+    <param name="publish_filtered_gps" value="true" />
+    <param name="use_odometry_yaw" value="false" />
+    <param name="wait_for_datum" value="false" />
+
+</launch>
+

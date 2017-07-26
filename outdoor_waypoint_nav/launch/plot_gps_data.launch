@@ -13,7 +13,8 @@
 	<arg name="end_button_sym" value="RB" />
 	<arg name="filtered_coordinates_file_dir" value="/waypoint_files/plot_filtered_points.txt" />
 	<arg name="raw_coordinates_file_dir" value="/waypoint_files/plot_raw_points.txt" />
-	<arg name="num_points" value="200" />
+	<arg name="num_points" value="700" />
+	<arg name="collection_time" value="10" />
 
 
   <!-- Run collect_gps_waypoints node -->
@@ -26,6 +27,6 @@
 			<param name="collect_button_sym" value="$(arg collect_button_sym)" type="string" />
 			<param name="end_button_sym" value="$(arg end_button_sym)" type="string" />
 			<param name="num_points" value="$(arg num_points)" type="int" />
-
+			<param name="collection_time" value="$(arg collection_time)" type="double" />
 </launch>
 			

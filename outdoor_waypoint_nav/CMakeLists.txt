@@ -19,9 +19,11 @@ add_executable(gps_waypoint src/gps_waypoint.cpp)
 add_executable(gps_waypoint_mapping src/gps_waypoint_mapping.cpp)
 add_executable(collect_gps_waypoints src/collect_gps_waypoints.cpp)
 add_executable(plot_gps_waypoints src/plot_gps_waypoints.cpp)
+add_executable(calibrate_heading src/calibrate_heading.cpp)
 
 target_link_libraries(gps_waypoint ${catkin_LIBRARIES})
 target_link_libraries(gps_waypoint_mapping ${catkin_LIBRARIES})
 target_link_libraries(collect_gps_waypoints ${catkin_LIBRARIES})
 target_link_libraries(plot_gps_waypoints ${catkin_LIBRARIES})
+target_link_libraries(calibrate_heading ${catkin_LIBRARIES})
 
