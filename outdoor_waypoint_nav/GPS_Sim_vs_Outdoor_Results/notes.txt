@@ -1,0 +1,12 @@
+Notes on Datasets/Results:
+--------------------------
+sim 8: 700 points at 0.1 hz with noise: 0.198  0.202  0.1 
+sim 9: 700 points at 0.1 hz with noise: 0.387  0.825  0.1 
+
+outdoor 4: Novatel 700 points at 0.1hz (10s)
+	-> COV: 0.039441131853440   0.014529742529130		COV = [ xx yx = [ EE NE
+   		0.014529742529130   0.041046684501599			xy yy]	  EN NN ]
+
+outdoor 5: Garmin 700 points at 0.1hz (10s)
+	-> COV: 0.149393557456404   0.252651894700915
+   		0.252651894700915   0.681154404066945
