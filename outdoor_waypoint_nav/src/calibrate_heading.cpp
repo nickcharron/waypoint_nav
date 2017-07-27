@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     ROS_INFO("Writing calibration results to file...");
     writeParams(path, heading_error);
     ROS_INFO("Wrote to param file: ");
-    std::cout << path.c_str();       
+    std::cout << path.c_str() << std::endl;       
 
     // Create backward commmands and publish
     ROS_INFO("Returning to start...");
