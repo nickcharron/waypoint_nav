@@ -29,27 +29,6 @@ void getParams()
     ros::param::get("wait_for_datum", wait_for_datum);
 }
 
-void resetParams(std::string path_to_param_file)
-{
-    // Open file
-    std::ofstream paramsFile (path_to_param_file.c_str());
-
-    // Write to file
-        paramsFile << "navsat_transform:" << std::endl;
-        paramsFile << std::fixed << std::setprecision(0) << "  frequency: " << frequency << std::endl;
-        paramsFile << std::fixed << std::setprecision(1) << "  delay: " << delay << std::endl;
-        paramsFile << std::fixed << std::setprecision(5) << "  magnetic_declination_radians: " << magnetic_declination_radians << std::endl;
-        paramsFile << std::fixed << std::setprecision(5) << "  yaw_offset: " << yaw_offset << std::endl;
-        paramsFile << "  zero_altitude: " << std::boolalpha << zero_altitude << std::endl;
-        paramsFile << "  broadcast_utm_transform: " << std::boolalpha << broadcast_utm_transform << std::endl;
-        paramsFile << "  publish_filtered_gps: " << std::boolalpha << publish_filtered_gps << std::endl;
-        paramsFile << "  use_odometry_yaw: " << std::boolalpha << use_odometry_yaw << std::endl;
-        paramsFile << "  wait_for_datum: " << std::boolalpha << wait_for_datum << std::endl;
-
-    // Close file
-    paramsFile.close();
-}
-
 void writeParams(std::string path_to_param_file, double heading_err)
 {
     // Open file
@@ -115,13 +94,8 @@ int main(int argc, char **argv)
     double heading_error = atan2(y_pos, (x_vel * x_vel_time));
     ROS_INFO("Detected heading error of: %.1f Degrees", 180/M_PI*(heading_error));
 
-    // get path
-    std::string path =  ros::package::getPath("outdoor_waypoint_nav") + "/params/navsat_params.yaml";
-
-    // reset params file based on parameters specified in launch file. This resets any previous calibrations
-    resetParams(path);
-
     //write params file
+    std::string path =  ros::package::getPath("outdoor_waypoint_nav") + "/params/navsat_params.yaml";
     ROS_INFO("Writing calibration results to file...");
     writeParams(path, heading_error);
     ROS_INFO("Wrote to param file: ");
