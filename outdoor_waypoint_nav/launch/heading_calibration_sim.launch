@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Load current navsat parameters -->
+  <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/navsat_params_sim.yaml" />
+
+  <!-- Start calibration node -->
+  <node name="calibrate_heading" pkg="outdoor_waypoint_nav" type="calibrate_heading" output="screen" />
+    <!-- set x linear velocity (m/s) -->
+    <param name="x_vel" value="0.5" />
+
+    <!-- set how long to publish velocity command (s) -->
+    <param name="x_vel_time" value="10" />
+    
+</launch>
+
