@@ -5,8 +5,10 @@
 #include <actionlib/client/simple_action_client.h>
 #include <robot_localization/navsat_conversions.h>
 #include <geometry_msgs/PointStamped.h>
+#include <std_msgs/Bool.h>
 #include <tf/transform_listener.h>
 #include <math.h>
+
 
 
 // initialize variables
@@ -157,6 +159,7 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
 int main(int argc, char** argv)
 {
 	ros::init(argc, argv, "gps_waypoint"); //initiate node called gps_waypoint
+	ros::NodeHandle n;
 	ROS_INFO("Initiated gps_waypoint node");
 	MoveBaseClient ac("move_base", true); 
 		//construct an action client that we use to communication with the action named move_base.
@@ -167,6 +170,9 @@ int main(int argc, char** argv)
 		{
           ROS_INFO("Waiting for the move_base action server to come up");
         }
+
+	// Initiate publisher to send end of node message
+		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/waypoint_following_status",100);
 
 	//Get Longitude and Latitude goals from text file
 
@@ -237,6 +243,12 @@ int main(int argc, char** argv)
 	 
 	 ROS_INFO("Husky has reached all of its goals!!!\n");
 	 ROS_INFO("Ending node...");
+
+	 // Notify joy_launch_control that calibration is complete
+     std_msgs::Bool node_ended;
+     node_ended.data = true;
+     pubWaypointNodeEnded.publish(node_ended);
+
 	 ros::shutdown();
      ros::spin();
 	return 0;

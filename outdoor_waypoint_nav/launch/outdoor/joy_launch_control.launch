@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- 
+	Note: 
+	 - Button mapping specific for Logitech and xbox joysticks 
+	 - You may need to remap by changing params below
+	-->
+	<arg name="collect_button_num" value="4" />
+	<arg name="collect_button_sym" value="LB" />
+	<arg name="send_button_num" value="5" />
+  <arg name="send_button_sym" value="RB" />
+	<arg name="calibrate_button_num" value="7" />
+  <arg name="calibrate_button_sym" value="START" />
+
+  <!-- Run collect_gps_waypoints node -->
+  	<node pkg="outdoor_waypoint_nav" type="joy_launch_control.py" name="joy_launch_control" output="screen"/>
+			<param name="collect_button_num" value="$(arg collect_button_num)" type="int" />
+			<param name="collect_button_sym" value="$(arg collect_button_sym)" type="string" />
+			<param name="send_button_num" value="$(arg send_button_num)" type="int" />
+			<param name="send_button_sym" value="$(arg send_button_sym)" type="string" />
+			<param name="calibrate_button_num" value="$(arg calibrate_button_num)" type="int" />
+			<param name="calibrate_button_sym" value="$(arg calibrate_button_sym)" type="string" />
+
+</launch>
+			

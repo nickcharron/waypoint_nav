@@ -3,7 +3,7 @@
 
   <group ns="gps">
     <!-- NavSat Serial -->
-    <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" output="screen">
+    <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" > <!--output="screen"-->
       <!-- for Garmin GPS -->
 	<!--
       <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/ftdi_FTVBIBT1)" />

@@ -41,8 +41,7 @@ void writeParams(std::string path_to_param_file, double heading_err)
         paramsFile << std::fixed << std::setprecision(1) << "  delay: " << delay << std::endl;
     
         // Adding heading error to magnetic declination parameter to correct initial poor estimate
-            paramsFile << std::fixed << std::setprecision(5) << "  magnetic_declination_radians: " << (magnetic_declination_radians + heading_err)<< std::endl;
-    
+        paramsFile << std::fixed << std::setprecision(5) << "  magnetic_declination_radians: " << (magnetic_declination_radians + heading_err)<< std::endl;
         paramsFile << std::fixed << std::setprecision(5) << "  yaw_offset: " << yaw_offset << std::endl;
         paramsFile << "  zero_altitude: " << std::boolalpha << zero_altitude << std::endl;
         paramsFile << "  broadcast_utm_transform: " << std::boolalpha << broadcast_utm_transform << std::endl;
@@ -69,7 +68,7 @@ int main(int argc, char **argv)
     // Initialise publishers and subscribers
     ros::Subscriber sub_odom = n.subscribe("/odometry/filtered_map", 100, filtered_odom_CB);
     ros::Publisher pubVel = n.advertise<geometry_msgs::Twist>("husky_velocity_controller/cmd_vel",100);
-    ros::Publisher pubNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/calibrate_status",100);
+    ros::Publisher pubCalibrationNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/calibrate_status",100);
 
     // Get parameters from parameer server
     getParams();
@@ -115,10 +114,10 @@ int main(int argc, char **argv)
 
     ROS_INFO("Heading Calibration Complete");
     
-    // Notify joy_launch_control that calibration is complete
+    // Notify joy_launch_control that collection is complete
         std_msgs::Bool node_ended;
         node_ended.data = true;
-        pubNodeEnded.publish(node_ended);
+        pubCalibrationNodeEnded.publish(node_ended);
     
     ROS_INFO("Ending Node...");
 	ros::shutdown();

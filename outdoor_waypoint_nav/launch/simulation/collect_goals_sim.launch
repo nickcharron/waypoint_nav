@@ -9,8 +9,7 @@
 	-->
 	<arg name="collect_button_num" value="3" />
 	<arg name="collect_button_sym" value="Y" />
-	<arg name="end_button_num" value="8" />
-		<!-- ensure this is the same as the python script that launches this node -->
+	<arg name="end_button_num" value="6" />
 	<arg name="end_button_sym" value="BACK" />
 	<arg name="coordinates_file_dir" value="/waypoint_files/points_sim.txt" />
 
