@@ -13,7 +13,7 @@
   <arg name="send_button_sym" value="RB" />
 	<arg name="calibrate_button_num" value="7" />
   <arg name="calibrate_button_sym" value="START" />
-	<arg name="simulation_enabled" value="false" />
+	<arg name="simulation_enabled" value="true" />
 
   <!-- Run collect_gps_waypoints node -->
   	<node pkg="outdoor_waypoint_nav" type="joy_launch_control.py" name="joy_launch_control" output="screen"/>

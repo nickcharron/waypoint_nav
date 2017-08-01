@@ -1,19 +1,11 @@
 #!/usr/bin/env python
-import roslaunch
 import rospy
+import roslaunch
+import rospkg
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Bool
 
-# Define location of launch files
-location_collect = "/home/ncharron/catkin_ws/src/waypoint_nav/outdoor_waypoint_nav/launch/collect_goals_sim.launch"
-location_send = "/home/ncharron/catkin_ws/src/waypoint_nav/outdoor_waypoint_nav/launch/send_goals_sim.launch"
-location_calibrate = "/home/ncharron/catkin_ws/src/waypoint_nav/outdoor_waypoint_nav/launch/heading_calibration_sim.launch"
-
 # Initialize variables
-
-uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-roslaunch.configure_logging(uuid)
-launch = roslaunch.parent.ROSLaunchParent(uuid,[location_collect])
 
 buttons_array = [0, 0, 0]
 collect_btn_num = 0
@@ -22,6 +14,11 @@ send_btn_num = 0
 send_btn_sym = ""
 calibrate_btn_num = 0
 calibrate_btn_sym = ""
+sim_enabled = False
+
+location_collect = ""
+location_send = ""
+location_calibrate = ""
 
 calibrate_complete = False
 collect_complete = False
@@ -34,6 +31,7 @@ def getParameter():
     global send_btn_sym
     global calibrate_btn_num
     global calibrate_btn_sym
+    global sim_enabled
 
     collect_btn_num = rospy.get_param("collect_button_num")
     collect_btn_sym = rospy.get_param("collect_button_sym")
@@ -41,6 +39,27 @@ def getParameter():
     send_btn_sym = rospy.get_param("send_button_sym")
     calibrate_btn_num = rospy.get_param("calibrate_button_num")
     calibrate_btn_sym = rospy.get_param("calibrate_button_sym")
+    sim_enabled = rospy.get_param("sim_enabled")
+
+def getPaths():
+    global location_collect
+    global location_send
+    global location_calibrate
+    rospack = rospkg.RosPack()
+    
+    # Define location of launch files
+    if sim_enabled == True:
+        location_collect = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/collect_goals_sim.launch"
+        location_send = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/send_goals_sim.launch"
+        location_calibrate = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/heading_calibration_sim.launch"
+
+    elif sim_enabled == False:
+        location_collect = rospack.get_path('outdoor_waypoint_nav') + "/launch/outdoor/collect_goals.launch"
+        location_send = rospack.get_path('outdoor_waypoint_nav') + "/launch/outdoor/send_goals.launch"
+        location_calibrate = rospack.get_path('outdoor_waypoint_nav') + "/launch/outdoor/heading_calibration.launch"
+
+    else:
+        print("ERROR: PLEASE SPECIFY SIM_ENABLED PARAMETER.")
 
 def joy_CB(joy_msg):
     global start_collect_btn
@@ -135,6 +154,12 @@ def main():
 if __name__ == '__main__':
 
     getParameter()
+    getPaths()
+
+    uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+    roslaunch.configure_logging(uuid)
+    launch = roslaunch.parent.ROSLaunchParent(uuid,[location_collect])
+
     print_instructions()
     print("NOTE: It is recommended to perform one or two heading calibrations")
     print("      each time the robot is starting from a new heading.")
