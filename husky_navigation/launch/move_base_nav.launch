@@ -9,6 +9,7 @@
     <rosparam file="$(find husky_navigation)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find husky_navigation)/params/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find husky_navigation)/params/base_local_planner_params.yaml" command="load" />
+    <!--rosparam file="$(find husky_navigation)/params/base_local_planner_TrajPlanner.yaml" command="load" /-->
   
     <rosparam file="$(find husky_navigation)/params/move_base_params.yaml" command="load" />
     
