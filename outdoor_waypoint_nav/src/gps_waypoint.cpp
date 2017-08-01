@@ -19,7 +19,7 @@
 	std::vector<std::pair<double, double> >::iterator iter; //init. iterator
 	double lati=0, longi=0;
 	geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
-	int count = 0, waypointCount = 0;
+	int count = 0, waypointCount = 0, wait_count = 0;
 	double numWaypoints = 0;
     double latiGoal, longiGoal, latiNext, longiNext;
 	std::string utm_zone;
@@ -165,14 +165,24 @@ int main(int argc, char** argv)
 		//construct an action client that we use to communication with the action named move_base.
 		//Setting true is telling the constructor to start ros::spin()
 
+	// Initiate publisher to send end of node message
+		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/waypoint_following_status",100);
+
     //wait for the action server to come up
    		while(!ac.waitForServer(ros::Duration(5.0)))
 		{
-          ROS_INFO("Waiting for the move_base action server to come up");
+			wait_count++;
+			if(wait_count > 3)
+			{
+				ROS_ERROR("move_base action server did not come up, killing gps_waypoint node...");
+				// Notify joy_launch_control that waypoint following is complete
+     			std_msgs::Bool node_ended;
+    			node_ended.data = true;
+     			pubWaypointNodeEnded.publish(node_ended);
+				ros::shutdown();
+			}
+	      	ROS_INFO("Waiting for the move_base action server to come up");
         }
-
-	// Initiate publisher to send end of node message
-		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/waypoint_following_status",100);
 
 	//Get Longitude and Latitude goals from text file
 
@@ -244,7 +254,7 @@ int main(int argc, char** argv)
 	 ROS_INFO("Husky has reached all of its goals!!!\n");
 	 ROS_INFO("Ending node...");
 
-	 // Notify joy_launch_control that calibration is complete
+	 // Notify joy_launch_control that waypoint following is complete
      std_msgs::Bool node_ended;
      node_ended.data = true;
      pubWaypointNodeEnded.publish(node_ended);
