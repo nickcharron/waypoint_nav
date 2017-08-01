@@ -247,6 +247,10 @@ int main(int argc, char** argv)
 		  {
 		    ROS_ERROR("Husky was unable to reach its goal. GPS Waypoint unreachable.");
 			ROS_INFO("Exiting node...");
+			// Notify joy_launch_control that waypoint following is complete
+     			std_msgs::Bool node_ended;
+    			node_ended.data = true;
+     			pubWaypointNodeEnded.publish(node_ended);
 			ros::shutdown();
 		  }
 	} // End for loop iterating through waypoint vector
