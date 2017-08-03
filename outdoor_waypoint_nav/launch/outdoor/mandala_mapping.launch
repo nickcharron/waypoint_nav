@@ -3,38 +3,17 @@
 <launch>
 	  <arg name="collect_scan_but" value="1" />
 
-    <!-- Run husky_bringup -->
-    <include file="$(find outdoor_waypoint_nav)/launch/include/husky_bringup.launch" />
-
-    <!-- launch lms1xx lidar -->
-    <include file="$(find outdoor_waypoint_nav)/launch/include/lms1xx.launch" />
-
-    <!-- launch um6 imu -->
-    <include file="$(find outdoor_waypoint_nav)/launch/include/imu.launch" />
-
-    <!-- launch gps -->
-    <include file="$(find outdoor_waypoint_nav)/launch/include/gps.launch" />
-
-    <!-- Launch robot_localization and navsat -->
-    <include file="$(find outdoor_waypoint_nav)/launch/include/localization_run.launch"/>
-
-    <!-- Run gmapping to create map -->
-    <include file="$(find husky_navigation)/launch/gmapping.launch" />
-
-    <!-- Launch hector_slam for laser odometry and mapping -->
-    <!-- include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
-
-    <!-- Run husky_navigation to enable move_base -->
-    <include file="$(find husky_navigation)/launch/move_base_nav.launch" />
-
     <!-- Run mandala mapping -->
     <include file="$(find m3dunit_base)/launch/universal.launch" />
+
     <node name="static_tf" type="static_transform_publisher" pkg="tf" args = "0 0 0 0 0 0 user_rail_link m3d_test/m3d_link 10"/>
+    
     <node name="joy_to_bool" type="joyToBool.py" pkg="m3dunit_base">
       <remap from="/joy" to="/joy_teleop/joy"/>
       <param name="buttonNo" value="$(arg collect_scan_but)"/>
       <remap to="/m3d_test/aggregator/request" from="~button" />
     </node>
+    
     <node name="gpu_6dslam_node" pkg="gpu_6dslam" type="gpu_6dslam_node"/>
 
 
