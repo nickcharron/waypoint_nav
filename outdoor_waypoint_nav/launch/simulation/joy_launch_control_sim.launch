@@ -13,6 +13,8 @@
   <arg name="send_button_sym" value="RB" />
 	<arg name="calibrate_button_num" value="7" />
   <arg name="calibrate_button_sym" value="START" />
+	<arg name="abort_button_num" value="1" />
+  <arg name="abort_button_sym" value="B" />
 	<arg name="simulation_enabled" value="true" />
 
   <!-- Run collect_gps_waypoints node -->
@@ -23,6 +25,8 @@
 			<param name="send_button_sym" value="$(arg send_button_sym)" type="string" />
 			<param name="calibrate_button_num" value="$(arg calibrate_button_num)" type="int" />
 			<param name="calibrate_button_sym" value="$(arg calibrate_button_sym)" type="string" />
+			<param name="abort_button_num" value="$(arg abort_button_num)" type="int" />
+			<param name="abort_button_sym" value="$(arg abort_button_sym)" type="string" />
 			<param name="sim_enabled" value="$(arg simulation_enabled)" type="bool" />
 
 </launch>

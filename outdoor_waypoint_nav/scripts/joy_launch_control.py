@@ -2,18 +2,21 @@
 import rospy
 import roslaunch
 import rospkg
+import os
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Bool
 
 # Initialize variables
 
-buttons_array = [0, 0, 0]
+buttons_array = [0, 0, 0, 0]
 collect_btn_num = 0
 collect_btn_sym = ""
 send_btn_num = 0
 send_btn_sym = ""
 calibrate_btn_num = 0
 calibrate_btn_sym = ""
+abort_btn_num = 0
+abort_btn_sym = ""
 sim_enabled = False
 
 location_collect = ""
@@ -31,6 +34,8 @@ def getParameter():
     global send_btn_sym
     global calibrate_btn_num
     global calibrate_btn_sym
+    global abort_btn_num
+    global abort_btn_sym
     global sim_enabled
 
     collect_btn_num = rospy.get_param("collect_button_num")
@@ -39,6 +44,9 @@ def getParameter():
     send_btn_sym = rospy.get_param("send_button_sym")
     calibrate_btn_num = rospy.get_param("calibrate_button_num")
     calibrate_btn_sym = rospy.get_param("calibrate_button_sym")
+    abort_btn_num = rospy.get_param("abort_button_num")
+    abort_btn_sym = rospy.get_param("abort_button_sym")
+
     sim_enabled = rospy.get_param("sim_enabled")
 
 def getPaths():
@@ -64,7 +72,7 @@ def getPaths():
 def joy_CB(joy_msg):
     global start_collect_btn
     global buttons_array 
-    buttons_array = [joy_msg.buttons[collect_btn_num],joy_msg.buttons[send_btn_num],joy_msg.buttons[calibrate_btn_num]]
+    buttons_array = [joy_msg.buttons[collect_btn_num],joy_msg.buttons[send_btn_num],joy_msg.buttons[calibrate_btn_num], joy_msg.buttons[abort_btn_num]]
 
 def calibrate_status_CB(calibrate_status_msg):
     global calibrate_complete
@@ -91,6 +99,7 @@ def print_instructions():
     print "Press %s to start waypoint collection" % collect_btn_sym
     print "Press %s to start waypoint following" % send_btn_sym
     print "Press %s to perform heading calibration" % calibrate_btn_sym
+    print "Press %s at ANY TIME to abort and kill move_base" % abort_btn_sym
     print ""
 
 def check_buttons():
@@ -100,6 +109,11 @@ def check_buttons():
     global calibrate_complete
     global collect_complete
     global send_complete
+    
+    # Check abort button
+    if buttons_array[3] == 1:
+        rospy.logerr("ABORT BUTTON SELECTED, killing move_base...")
+        os.system("rosnode kill move_base")
 
     # Start collecting goals
     if buttons_array[0] == 1:
@@ -159,7 +173,6 @@ if __name__ == '__main__':
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
     launch = roslaunch.parent.ROSLaunchParent(uuid,[location_collect])
-
     print_instructions()
     print("NOTE: It is recommended to perform one or two heading calibrations")
     print("      each time the robot is starting from a new heading.")
