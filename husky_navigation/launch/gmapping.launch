@@ -15,7 +15,7 @@
     <!-- Process 1 out of every this many scans (set it to a higher number to skip more scans)  -->
     <param name="throttle_scans" value="5"/>
 
-    <param name="map_update_interval" value="1.0"/> <!-- default: 5.0 -->
+    <param name="map_update_interval" value="0.1"/> <!-- default: 5.0 -->
 
     <!-- The maximum usable range of the laser. A beam is cropped to this value.  -->
     <param name="maxUrange" value="2.0"/>
