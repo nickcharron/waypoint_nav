@@ -18,7 +18,7 @@
     <param name="map_update_interval" value="1.0"/> <!-- default: 5.0 -->
 
     <!-- The maximum usable range of the laser. A beam is cropped to this value.  -->
-    <param name="maxUrange" value="5.0"/>
+    <param name="maxUrange" value="2.0"/>
 
     <!-- The maximum range of the sensor --> 
     <!--If regions with no obstacles within the range of the sensor should 
