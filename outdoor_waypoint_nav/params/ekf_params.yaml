@@ -21,7 +21,7 @@ ekf_se_odom: # Used only for broadcasting odom to base_link transforms
   odom0_config: [false, false, false,
                  false, false, false,
                  true,  true,  true,
-                 false, false, true,
+                 false, false, false,
                  false, false, false]
   odom0_queue_size: 10
   odom0_nodelay: true
