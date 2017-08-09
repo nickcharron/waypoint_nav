@@ -14,7 +14,7 @@ publish_voxel_map: false
 footprint: [[0.33, 0.43], [-0.33, 0.43], [-0.33, -0.43], [0.33, -0.43], [0.45, 0]]
 footprint_padding: 0.2
 inflation_radius: 0.3  # controls how far away the zero cost point is from the obstacle
-cost_scaling_factor: 5 # slope of the cost decay curve with respect to distance from the object. lower makes robot stay further from obstacles
+cost_scaling_factor: 1 # slope of the cost decay curve with respect to distance from the object. lower makes robot stay further from obstacles
 
 observation_sources: laser_scan_sensor
 

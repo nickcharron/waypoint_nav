@@ -1,6 +1,6 @@
 TrajectoryPlannerROS:
   max_vel_x: 0.6
-  min_vel_x: -0.2 # We do not want the robot to backup unless there is a rear facing lidar checking for obstacles. Or set to low reverse speeds
+  min_vel_x: 0.15 # Allowing velocities too low will will stop the obstacle avoidance because low velocities won't actually be high enough to move the robot
   max_vel_theta: 1.0
   min_vel_theta: -1.0
   min_in_place_vel_theta: 0.4
