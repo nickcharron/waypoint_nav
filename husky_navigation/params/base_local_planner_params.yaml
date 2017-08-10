@@ -26,9 +26,9 @@ TrajectoryPlannerROS:
   sim_time: 2.0   # setting time of each simulation that it must evaluate. Higher will create longer curves but too low can limit performance (<2)
   sim_granularity: 0.02 # the step size to take between points on a trajectory, or how frequent should the points on this trajectory should be examined
   angular_sim_granularity: 0.02
-  vx_samples: 6  # how many samples of x velocity are taken for simulated trajectories
-  vtheta_samples: 20 # how many samples of theta velocity are taken for simulated trajectories
-  controller_frequency: 20.0  # how often the planning algorithm is performed (hz)
+  vx_samples: 10  # how many samples of x velocity are taken for simulated trajectories
+  vtheta_samples: 30 # how many samples of theta velocity are taken for simulated trajectories
+  controller_frequency: 1.0  # how often the planning algorithm is performed (hz)
 
   # Trajectory scoring parameters
   meter_scoring: true # Whether the gdist_scale and pdist_scale parameters should assume that goal_distance and path_distance are expressed in units of meters or cells. Cells are assumed by default (false).
