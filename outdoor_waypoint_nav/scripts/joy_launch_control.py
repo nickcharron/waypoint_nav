@@ -8,7 +8,7 @@ from std_msgs.msg import Bool
 
 # Initialize variables
 
-buttons_array = [0, 0, 0, 0]
+buttons_array = [0, 0, 0, 0, 0]
 collect_btn_num = 0
 collect_btn_sym = ""
 send_btn_num = 0
@@ -22,10 +22,12 @@ sim_enabled = False
 location_collect = ""
 location_send = ""
 location_calibrate = ""
+location_safety_node = ""
 
 calibrate_complete = False
 collect_complete = False
 send_complete = False
+velocity_paused = False
 
 def getParameter():
     global collect_btn_num
@@ -36,6 +38,8 @@ def getParameter():
     global calibrate_btn_sym
     global abort_btn_num
     global abort_btn_sym
+    global continue_btn_num
+    global continue_btn_sym
     global sim_enabled
 
     collect_btn_num = rospy.get_param("collect_button_num")
@@ -46,13 +50,16 @@ def getParameter():
     calibrate_btn_sym = rospy.get_param("calibrate_button_sym")
     abort_btn_num = rospy.get_param("abort_button_num")
     abort_btn_sym = rospy.get_param("abort_button_sym")
-
+    continue_btn_num = rospy.get_param("continue_button_num")
+    continue_btn_sym = rospy.get_param("continue_button_sym")
+    
     sim_enabled = rospy.get_param("sim_enabled")
 
 def getPaths():
     global location_collect
     global location_send
     global location_calibrate
+    global location_safety_node
     rospack = rospkg.RosPack()
     
     # Define location of launch files
@@ -60,11 +67,13 @@ def getPaths():
         location_collect = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/collect_goals_sim.launch"
         location_send = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/send_goals_sim.launch"
         location_calibrate = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/heading_calibration_sim.launch"
+        location_safety_node = rospack.get_path('outdoor_waypoint_nav') + "/launch/include/safety_node.launch"
 
     elif sim_enabled == False:
         location_collect = rospack.get_path('outdoor_waypoint_nav') + "/launch/outdoor/collect_goals.launch"
         location_send = rospack.get_path('outdoor_waypoint_nav') + "/launch/outdoor/send_goals.launch"
         location_calibrate = rospack.get_path('outdoor_waypoint_nav') + "/launch/outdoor/heading_calibration.launch"
+        location_safety_node = rospack.get_path('outdoor_waypoint_nav') + "/launch/include/safety_node.launch"
 
     else:
         print("ERROR: PLEASE SPECIFY SIM_ENABLED PARAMETER.")
@@ -72,7 +81,7 @@ def getPaths():
 def joy_CB(joy_msg):
     global start_collect_btn
     global buttons_array 
-    buttons_array = [joy_msg.buttons[collect_btn_num],joy_msg.buttons[send_btn_num],joy_msg.buttons[calibrate_btn_num], joy_msg.buttons[abort_btn_num]]
+    buttons_array = [joy_msg.buttons[collect_btn_num],joy_msg.buttons[send_btn_num],joy_msg.buttons[calibrate_btn_num], joy_msg.buttons[abort_btn_num], joy_msg.buttons[continue_btn_num]]
 
 def calibrate_status_CB(calibrate_status_msg):
     global calibrate_complete
@@ -99,7 +108,7 @@ def print_instructions():
     print "Press %s to start waypoint collection" % collect_btn_sym
     print "Press %s to start waypoint following" % send_btn_sym
     print "Press %s to perform heading calibration" % calibrate_btn_sym
-    print "Press %s at ANY TIME to abort and kill move_base" % abort_btn_sym
+    print "Press %s at ANY TIME to STOP robot motion" % abort_btn_sym
     print ""
 
 def check_buttons():
@@ -109,11 +118,25 @@ def check_buttons():
     global calibrate_complete
     global collect_complete
     global send_complete
+    global velocity_paused
     
     # Check abort button
     if buttons_array[3] == 1:
-        rospy.logerr("ABORT BUTTON SELECTED, killing move_base...")
-        os.system("rosnode kill move_base")
+        rospy.logerr("STOP BUTTON SELECTED, blocking velocity commands...")
+        os.system("rosnode kill safety_node")
+        rospy.sleep(1) # Sleep for 1 second to allow time for node to shutdown
+        print ""
+        print "Press %s to continue following waypoints" % continue_btn_sym
+        print ""
+        velocity_paused = True
+    
+    elif buttons_array[4] == 1 and velocity_paused == True:
+        rospy.loginfo("continuing to follow wapoints...")
+        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+        roslaunch.configure_logging(uuid)
+        launch = roslaunch.parent.ROSLaunchParent(uuid,[location_safety_node])
+        launch.start()
+        velocity_paused = False
 
     # Start collecting goals
     if buttons_array[0] == 1:
@@ -174,7 +197,10 @@ if __name__ == '__main__':
     roslaunch.configure_logging(uuid)
     launch = roslaunch.parent.ROSLaunchParent(uuid,[location_collect])
     print_instructions()
-    print("NOTE: It is recommended to perform one or two heading calibrations")
-    print("      each time the robot is starting from a new heading.")
+
+    if sim_enabled == False:
+        print("NOTE: It is recommended to perform one or two heading calibrations")
+        print("      each time the robot is starting from a new heading.")
+    
     main()
     

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="outdoor_waypoint_nav" type="safety_node" name="safety_node" output="screen"/>
+
+</launch>

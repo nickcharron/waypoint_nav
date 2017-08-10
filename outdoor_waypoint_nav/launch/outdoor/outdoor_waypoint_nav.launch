@@ -26,6 +26,9 @@
     <!-- Run husky_navigation to enable move_base -->
     <include file="$(find husky_navigation)/launch/move_base_nav.launch" />
 
+    <!-- launch safety node to allow the user to disable velocity commands to the robot -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/safety_node.launch" />
+
   <!-- Run rviz -->
      <!-- Using standard configuration file -->
   	<!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find husky_viz)/rviz/model.rviz" /-->

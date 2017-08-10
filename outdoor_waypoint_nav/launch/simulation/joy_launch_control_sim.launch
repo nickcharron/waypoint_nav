@@ -15,6 +15,9 @@
   <arg name="calibrate_button_sym" value="START" />
 	<arg name="abort_button_num" value="1" />
   <arg name="abort_button_sym" value="B" />
+  <arg name="continue_button_num" value="3" />
+  <arg name="continue_button_sym" value="Y" />
+
 	<arg name="simulation_enabled" value="true" />
 
   <!-- Run collect_gps_waypoints node -->
@@ -27,6 +30,8 @@
 			<param name="calibrate_button_sym" value="$(arg calibrate_button_sym)" type="string" />
 			<param name="abort_button_num" value="$(arg abort_button_num)" type="int" />
 			<param name="abort_button_sym" value="$(arg abort_button_sym)" type="string" />
+			<param name="continue_button_num" value="$(arg continue_button_num)" type="int" />
+			<param name="continue_button_sym" value="$(arg continue_button_sym)" type="string" />
 			<param name="sim_enabled" value="$(arg simulation_enabled)" type="bool" />
 
 </launch>

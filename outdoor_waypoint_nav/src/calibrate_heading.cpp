@@ -120,6 +120,7 @@ int main(int argc, char **argv)
         pubCalibrationNodeEnded.publish(node_ended);
     
     ROS_INFO("Ending Node...");
+    ROS_WARN("PLEASE RESTART YOUR EKF NODES TO APPLY NEW CALIBRATION PARAMETERS.");
 	ros::shutdown();
 	return 0;
 }
