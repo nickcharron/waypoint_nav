@@ -6,7 +6,7 @@
     <include file="$(find outdoor_waypoint_nav)/launch/include/husky_bringup.launch" />
 
     <!-- launch lms1xx lidar -->
-    <include file="$(find outdoor_waypoint_nav)/launch/include/lms1xx.launch" />
+    <include file="$(find outdoor_waypoint_nav)/launch/include/laser.launch" />
 
     <!-- launch um6 imu -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/imu.launch" />
