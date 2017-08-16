@@ -3,7 +3,7 @@
 <launch>
 
     <!-- Run husky_bringup -->
-    <!--include file="$(find outdoor_waypoint_nav)/launch/include/husky_bringup.launch" /-->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/husky_bringup.launch" />
 
     <!-- launch lms1xx lidar -->
     <include file="$(find outdoor_waypoint_nav)/launch/include/laser.launch" />
