@@ -11,7 +11,7 @@
 #include <math.h>
 
 // Init variables
-float y_pos, x_vel, x_vel_time, frequency, delay, yaw_offset, magnetic_declination_radians;
+float y_pos, x_pos, x_vel, x_vel_time, frequency, delay, yaw_offset, magnetic_declination_radians;
 bool zero_altitude, broadcast_utm_transform, publish_filtered_gps, use_odometry_yaw, wait_for_datum;
 
 
@@ -56,6 +56,7 @@ void writeParams(std::string path_to_param_file, double heading_err)
 void filtered_odom_CB(const nav_msgs::Odometry odom_msgs)
 {
 		y_pos = odom_msgs.pose.pose.position.y;
+		x_pos = odom_msgs.pose.pose.position.x;
 }
 
 int main(int argc, char **argv)
@@ -92,7 +93,7 @@ int main(int argc, char **argv)
 
     // Read y value in filtered odometry and determine correction to heading
     ros::spinOnce();
-    double heading_error = atan2(y_pos, (x_vel * x_vel_time));
+    double heading_error = atan2(y_pos, x_pos);
     ROS_INFO("Detected heading error of: %.1f Degrees", 180/M_PI*(heading_error));
 
     //write params file

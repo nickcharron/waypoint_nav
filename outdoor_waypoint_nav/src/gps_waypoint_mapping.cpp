@@ -25,7 +25,6 @@
 	std::string utm_zone;
 	std::string path_local, path_abs;
 
-
 int countWaypointsInFile(std::string path_local)
 {
    	path_abs =  ros::package::getPath("outdoor_waypoint_nav") + path_local;	
@@ -158,16 +157,17 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
 
 int main(int argc, char** argv)
 {
-	ros::init(argc, argv, "gps_waypoint"); //initiate node called gps_waypoint
+	ros::init(argc, argv, "gps_waypoint_mapping"); //initiate node called gps_waypoint_mapping
 	ros::NodeHandle n;
-	ROS_INFO("Initiated gps_waypoint node");
+	ROS_INFO("Initiated gps_waypoint_mapping node");
 	MoveBaseClient ac("move_base", true); 
 		//construct an action client that we use to communication with the action named move_base.
 		//Setting true is telling the constructor to start ros::spin()
 
-	// Initiate publisher to send end of node message
+	// Initiate publisher to send end of node message and collect scan request
 		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/waypoint_following_status",100);
-
+		ros::Publisher pubScanRequest = n.advertise<std_msgs::Bool>("/m3d_test/aggregator/request",1000);
+		
     //wait for the action server to come up
    		while(!ac.waitForServer(ros::Duration(5.0)))
 		{
@@ -194,7 +194,7 @@ int main(int argc, char** argv)
 		waypointVect = getWaypoints(path_local);
 
 
-	// Iterate through vector of waypoints for setting goals
+	// Iterate through vector of waypoints for setting goals and collecting scans
 	for(iter=waypointVect.begin(); iter<waypointVect.end() ; iter++)
 	{
 		//Setting goal:
@@ -241,7 +241,12 @@ int main(int argc, char** argv)
 		  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
 		  {
 		    ROS_INFO("Husky has reached its goal!");	
-		    //switch to next waypoint and repeat
+			ROS_INFO("Collecting Scan...");
+			std_msgs::Bool take_scan;
+ 			take_scan.data = true;
+			pubScanRequest.publish(take_scan);
+			ros::Duration(15).sleep(); //wait for scan progress to reach 100%-takes ~12 seconds
+			//switch to next waypoint and repeat
 		  }
 		  else
 		  {
