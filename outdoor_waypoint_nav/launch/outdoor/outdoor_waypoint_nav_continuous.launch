@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Run husky_bringup -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/husky_bringup.launch" />
+
+    <!-- launch lms1xx lidar -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/laser.launch" />
+
+    <!-- launch um6 imu -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/imu.launch" />
+
+    <!-- launch gps -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/gps.launch" />
+
+    <!-- Launch robot_localization and navsat -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/localization_run.launch"/>
+
+    <!-- Run gmapping to create map -->
+    <include file="$(find husky_navigation)/launch/gmapping.launch" />
+
+    <!-- Launch hector_slam for laser odometry and mapping -->
+    <!-- include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
+
+    <!-- Run husky_navigation to enable move_base -->
+    <include file="$(find husky_navigation)/launch/move_base_nav_continuous.launch" />
+
+    <!-- launch safety node to allow the user to disable velocity commands to the robot -->
+    <include file="$(find outdoor_waypoint_nav)/launch/include/safety_node.launch" />
+
+  <!-- Run rviz -->
+     <!-- Using standard configuration file -->
+  	<!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find husky_viz)/rviz/model.rviz" /-->
+     <!-- Using custom configuration file -->
+	<!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find outdoor_waypoint_nav)/rviz_config/model.rviz" /-->
+
+</launch>
