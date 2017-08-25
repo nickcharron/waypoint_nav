@@ -5,7 +5,7 @@ z_resolution: 1 # The z resolution of the map in meters/cell.
 z_voxels: 2  # The number of voxels to in each vertical column, the height of the grid is z resolution * z voxels.
 #
 
-obstacle_range: 5 # The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters.
+obstacle_range: 2.5 # The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters.
 raytrace_range: 5.5 # The default range in meters at which to raytrace out obstacles from the map using sensor data
 
 #
