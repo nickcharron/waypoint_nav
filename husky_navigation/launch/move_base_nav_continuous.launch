@@ -2,6 +2,7 @@
 
 <launch>
 
+  <group ns="controller_1">
   <node pkg="move_base" type="move_base" respawn="false" name="move_base1" > <!--output="screen"-->
     
     <rosparam file="$(find husky_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -19,7 +20,9 @@
     <remap from="cmd_vel" to="cmd_vel1" />
 
   </node>
+  </group>
 
+  <group ns="controller_2">
   <node pkg="move_base" type="move_base" respawn="false" name="move_base2" > <!--output="screen"-->
     
     <rosparam file="$(find husky_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -37,6 +40,7 @@
     <remap from="cmd_vel" to="cmd_vel2" />
 
   </node>
+  </group>
 
 </launch>
 

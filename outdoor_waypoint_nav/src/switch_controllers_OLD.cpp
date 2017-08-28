@@ -1,12 +1,12 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
-#include <std_msgs/Bool.h>
+#include <std_msgs/Int8.h>
 
 ros::Publisher pubVel;
-geometry_msgs::Twist vel_msg1, vel_msg2;
-
+geometry_msgs::Twist vel_msg1;
+geometry_msgs::Twist vel_msg2;
 int controller_num = 1, current_vel = 1;
-bool vel1_empty = true, vel2_emtpy = true, controller_1_done = false, controller_2_done = false;
+bool vel1_empty = true, vel2_emtpy = true;
 
 void cmd_vel1_CB(const geometry_msgs::Twist::ConstPtr& vel_msg)
 {
@@ -47,30 +47,10 @@ void cmd_vel2_CB(const geometry_msgs::Twist::ConstPtr& vel_msg)
 	}
 } 
 
-void controller_1_CB(const std_msgs::Bool::ConstPtr& controller_1_done_msg)
+void controller_num_CB(const std_msgs::Int8::ConstPtr& controller_num_msg)
 {
-	if(controller_1_done_msg->data == true)
-	{
-		controller_1_done = true;
-		controller_num = 2; // if we get a true here, we know to switch the controller once it starts publishing velocities
-	}
-	else
-	{
-		controller_1_done = false; // do not switch the controller number
-	}
-} 
-
-void controller_2_CB(const std_msgs::Bool::ConstPtr& controller_2_done_msg)
-{
-	if(controller_2_done_msg->data == true)
-	{
-		controller_2_done = true;
-		controller_num = 1;
-	}
-	else
-	{
-		controller_2_done = false;
-	}
+	// Save msg
+	controller_num = controller_num_msg->data;
 } 
 
 int main(int argc, char** argv)
@@ -86,8 +66,7 @@ int main(int argc, char** argv)
 	// Initiate subscribers
 		ros::Subscriber sub_cmd_vel1 = n.subscribe("/cmd_vel1", 1000, cmd_vel1_CB);
 		ros::Subscriber sub_cmd_vel2 = n.subscribe("/cmd_vel2", 1000, cmd_vel2_CB);
-		ros::Subscriber sub_controller_1_status = n.subscribe("controller_1/controller_1_done", 1000, controller_1_CB);
-		ros::Subscriber sub_controller_2_status = n.subscribe("controller_2/controller_2_done", 1000, controller_2_CB);
+		ros::Subscriber sub_controller_num = n.subscribe("/outdoor_waypoint_nav/controller_in_use", 1000, controller_num_CB);
 
 	// Publish velocity commands of proper move_base controller
 		
@@ -104,7 +83,7 @@ int main(int argc, char** argv)
 				current_vel = 1;
 			} // else stay with 2
 		
-		// Publish correct velocity
+		// Publish velocity
 			if(current_vel == 1)
 			{
 				pubVel.publish(vel_msg1);

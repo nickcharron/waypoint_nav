@@ -65,7 +65,7 @@ def getPaths():
     # Define location of launch files
     if sim_enabled == True:
         location_collect = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/collect_goals_sim.launch"
-        location_send = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/send_goals_sim.launch"
+        location_send = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/send_goals_continuous_sim.launch"
         location_calibrate = rospack.get_path('outdoor_waypoint_nav') + "/launch/simulation/heading_calibration_sim.launch"
         location_safety_node = rospack.get_path('outdoor_waypoint_nav') + "/launch/include/safety_node.launch"
 

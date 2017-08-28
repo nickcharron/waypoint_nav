@@ -4,5 +4,5 @@
 
 	<node pkg="outdoor_waypoint_nav" type="gps_waypoint" name="gps_waypoint" output="screen" />
 		<param name="coordinates_file" value="/waypoint_files/points_outdoor.txt" type="string" />	
-
+		<param name="goalTolerance" value="1" type="int">
 </launch>
