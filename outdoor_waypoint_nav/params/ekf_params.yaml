@@ -17,7 +17,7 @@ ekf_se_odom: # Used only for broadcasting odom to base_link transforms
 # -------------------------------------
 # Wheel odometry:
 
-  odom0: husky_velocity_controller/odom
+  odom0: /husky_velocity_controller/odom
   odom0_config: [false, false, false,
                  false, false, false,
                  true,  true,  true,
@@ -45,7 +45,7 @@ ekf_se_odom: # Used only for broadcasting odom to base_link transforms
 # --------------------------------------
 # imu configure:
 
-  imu0: imu/data
+  imu0: /imu/data
   imu0_config: [false, false, false,
                 true,  true,  false,
                 false, false, false,
@@ -108,7 +108,7 @@ ekf_se_map:
 # -------------------------------------
 # Wheel odometry:
 
-  odom0: husky_velocity_controller/odom
+  odom0: /husky_velocity_controller/odom
   odom0_config: [false, false, false,
                  false, false, false,
                  true,  true,  true,
@@ -150,7 +150,7 @@ ekf_se_map:
 # --------------------------------------
 # imu configure:
 
-  imu0: imu/data
+  imu0: /imu/data
   imu0_config: [false, false, false,
                 true,  true, false,
                 false, false, false,

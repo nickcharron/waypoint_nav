@@ -55,31 +55,31 @@ int main(int argc, char** argv)
 		ros::Duration duration_min(1);
 
 	// Get button numbers to collect waypoints and end collection
-		ros::param::get("collect_button_num", collect_button_num);
-		ros::param::get("end_button_num", end_button_num);
+		ros::param::get("/outdoor_waypoint_nav/collect_button_num", collect_button_num);
+		ros::param::get("/outdoor_waypoint_nav/end_button_num", end_button_num);
 
     //Initiate subscribers
 		ros::Subscriber sub_joy = n.subscribe("/joy_teleop/joy", 100, joy_CB);
-		ros::Subscriber sub_gps = n.subscribe("/gps/filtered", 100, filtered_gps_CB);
+		ros::Subscriber sub_gps = n.subscribe("/outdoor_waypoint_nav/gps/filtered", 100, filtered_gps_CB);
 		ROS_INFO("Initiated collect_gps_waypoints node");
 
 	// Initiate publisher to send end of node message
-		ros::Publisher pubCollectionNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/collection_status",100);
+		ros::Publisher pubCollectionNodeEnded = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/collection_status",100);
 
     //Read file path and create/open file
-    	ros::param::get("coordinates_file", path_local);
+    	ros::param::get("/outdoor_waypoint_nav/coordinates_file", path_local);
 		std::string path_abs =  ros::package::getPath("outdoor_waypoint_nav") + path_local;	
 		std::ofstream coordFile (path_abs.c_str());
 		ROS_INFO("Saving coordinates to: %s", path_abs.c_str());
 		
 	// Give instructions:
-		ros::param::get("collect_button_sym", collect_button_sym);
-		ros::param::get("end_button_sym", end_button_sym);
+		ros::param::get("/outdoor_waypoint_nav/collect_button_sym", collect_button_sym);
+		ros::param::get("/outdoor_waypoint_nav/end_button_sym", end_button_sym);
 		std::cout << std::endl;
 		std::cout << "Press " << collect_button_sym.c_str() << " button to collect and store waypoint." << std::endl;
 		std::cout << "Press " << end_button_sym.c_str() << " button to end waypoint collection." << std::endl;
 		std::cout << std::endl;
-    
+
 	if(coordFile.is_open())
 	{
 		while(continue_collection)

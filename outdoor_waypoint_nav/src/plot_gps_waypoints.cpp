@@ -53,14 +53,14 @@ int main(int argc, char** argv)
 		ros::NodeHandle n;
 	
     // Get params
-		ros::param::get("collect_button_num", collect_button_num);
-		ros::param::get("end_button_num", end_button_num);
-    	ros::param::get("filtered_coordinates_file", path_local_filtered);
-    	ros::param::get("raw_coordinates_file", path_local_raw);
-		ros::param::get("collect_button_sym", collect_button_sym);
-		ros::param::get("end_button_sym", end_button_sym);
-		ros::param::get("num_points", numPoints);
-		ros::param::get("collection_time", collection_time);
+		ros::param::get("/outdoor_waypoint_nav/collect_button_num", collect_button_num);
+		ros::param::get("/outdoor_waypoint_nav/end_button_num", end_button_num);
+    	ros::param::get("/outdoor_waypoint_nav/filtered_coordinates_file", path_local_filtered);
+    	ros::param::get("/outdoor_waypoint_nav/raw_coordinates_file", path_local_raw);
+		ros::param::get("/outdoor_waypoint_nav/collect_button_sym", collect_button_sym);
+		ros::param::get("/outdoor_waypoint_nav/end_button_sym", end_button_sym);
+		ros::param::get("/outdoor_waypoint_nav/num_points", numPoints);
+		ros::param::get("/outdoor_waypoint_nav/collection_time", collection_time);
 
     // Initialize time and set rates
 		ros::Time::init();
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
 		
      //Subscribe to topics
         ros::Subscriber sub_gps_raw = n.subscribe("/navsat/fix", 100, raw_gps_CB);
-        ros::Subscriber sub_gps_filtered = n.subscribe("/gps/filtered", 100, filtered_gps_CB);
+        ros::Subscriber sub_gps_filtered = n.subscribe("/outdoor_waypoint_nav/gps/filtered", 100, filtered_gps_CB);
 		ros::Subscriber sub_joy = n.subscribe("/joy_teleop/joy", 100, joy_CB);
 
 

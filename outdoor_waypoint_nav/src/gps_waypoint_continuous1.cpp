@@ -168,10 +168,10 @@ int main(int argc, char** argv)
 
 	// Initiate publisher to send end of node message and publisher to say which node is publishing the proper vel commands
 		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/waypoint_following_status",1000);
-		ros::Publisher pub_controller_1_done = n.advertise<std_msgs::Bool>("controller_1_done", 1000);	
+		ros::Publisher pub_controller_1_done = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/controller_1_done", 1000);	
 
 	// Initiate subscriber to subscribe to filtered odometery
-		ros::Subscriber sub_odom = n.subscribe("/odometry/filtered_map", 1000, odometry_CB);
+		ros::Subscriber sub_odom = n.subscribe("/outdoor_waypoint_nav/odometry/filtered_map", 1000, odometry_CB);
 		ros::Subscriber sub_controller_2_status = n.subscribe("/controller_2/controller_2_done", 1000, controller_2_CB);
 
     controller_1_done.data = false;
@@ -196,7 +196,7 @@ int main(int argc, char** argv)
 	//Get Longitude and Latitude goals from text file
 
 		//Count number of waypoints 
-		ros::param::get("coordinates_file", path_local);
+		ros::param::get("/outdoor_waypoint_nav/coordinates_file", path_local);
 		numWaypoints = countWaypointsInFile(path_local);
 
 		//Reading waypoints from text file and output results
@@ -249,7 +249,7 @@ int main(int argc, char** argv)
 		  }
 
 		//Send Goals
-		  ros::param::get("goalTolerance", goal_tolerance);
+		  ros::param::get("/outdoor_waypoint_nav/goalTolerance", goal_tolerance);
 		  ROS_INFO("Sending goal");
 		  ac1.sendGoal(goal); //push current goal to move_base node
 		  waitToReachGoal(map_point.point.x, map_point.point.y, goal_tolerance);

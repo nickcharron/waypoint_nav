@@ -86,8 +86,8 @@ int main(int argc, char** argv)
 	// Initiate subscribers
 		ros::Subscriber sub_cmd_vel1 = n.subscribe("/cmd_vel1", 1000, cmd_vel1_CB);
 		ros::Subscriber sub_cmd_vel2 = n.subscribe("/cmd_vel2", 1000, cmd_vel2_CB);
-		ros::Subscriber sub_controller_1_status = n.subscribe("controller_1/controller_1_done", 1000, controller_1_CB);
-		ros::Subscriber sub_controller_2_status = n.subscribe("controller_2/controller_2_done", 1000, controller_2_CB);
+		ros::Subscriber sub_controller_1_status = n.subscribe("/controller_1/controller_1_done", 1000, controller_1_CB);
+		ros::Subscriber sub_controller_2_status = n.subscribe("/controller_2/controller_2_done", 1000, controller_2_CB);
 
 	// Publish velocity commands of proper move_base controller
 		

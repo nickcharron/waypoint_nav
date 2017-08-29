@@ -161,12 +161,12 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "gps_waypoint"); //initiate node called gps_waypoint
 	ros::NodeHandle n;
 	ROS_INFO("Initiated gps_waypoint node");
-	MoveBaseClient ac("move_base", true); 
+	MoveBaseClient ac("/move_base", true); 
 		//construct an action client that we use to communication with the action named move_base.
 		//Setting true is telling the constructor to start ros::spin()
 
 	// Initiate publisher to send end of node message
-		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/waypoint_following_status",100);
+		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/waypoint_following_status",100);
 
     //wait for the action server to come up
    		while(!ac.waitForServer(ros::Duration(5.0)))
@@ -187,7 +187,7 @@ int main(int argc, char** argv)
 	//Get Longitude and Latitude goals from text file
 
 		//Count number of waypoints 
-		ros::param::get("coordinates_file", path_local);
+		ros::param::get("/outdoor_waypoint_nav/coordinates_file", path_local);
 		numWaypoints = countWaypointsInFile(path_local);
 
 		//Reading waypoints from text file and output results

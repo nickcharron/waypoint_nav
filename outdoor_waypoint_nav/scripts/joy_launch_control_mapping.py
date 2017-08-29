@@ -42,18 +42,18 @@ def getParameter():
     global continue_btn_sym
     global sim_enabled
 
-    collect_btn_num = rospy.get_param("collect_button_num")
-    collect_btn_sym = rospy.get_param("collect_button_sym")
-    send_btn_num = rospy.get_param("send_button_num")
-    send_btn_sym = rospy.get_param("send_button_sym")
-    calibrate_btn_num = rospy.get_param("calibrate_button_num")
-    calibrate_btn_sym = rospy.get_param("calibrate_button_sym")
-    abort_btn_num = rospy.get_param("abort_button_num")
-    abort_btn_sym = rospy.get_param("abort_button_sym")
-    continue_btn_num = rospy.get_param("continue_button_num")
-    continue_btn_sym = rospy.get_param("continue_button_sym")
+    collect_btn_num = rospy.get_param("/outdoor_waypoint_nav/collect_button_num")
+    collect_btn_sym = rospy.get_param("/outdoor_waypoint_nav/collect_button_sym")
+    send_btn_num = rospy.get_param("/outdoor_waypoint_nav/send_button_num")
+    send_btn_sym = rospy.get_param("/outdoor_waypoint_nav/send_button_sym")
+    calibrate_btn_num = rospy.get_param("/outdoor_waypoint_nav/calibrate_button_num")
+    calibrate_btn_sym = rospy.get_param("/outdoor_waypoint_nav/calibrate_button_sym")
+    abort_btn_num = rospy.get_param("/outdoor_waypoint_nav/abort_button_num")
+    abort_btn_sym = rospy.get_param("/outdoor_waypoint_nav/abort_button_sym")
+    continue_btn_num = rospy.get_param("/outdoor_waypoint_nav/continue_button_num")
+    continue_btn_sym = rospy.get_param("/outdoor_waypoint_nav/continue_button_sym")
     
-    sim_enabled = rospy.get_param("sim_enabled")
+    sim_enabled = rospy.get_param("/outdoor_waypoint_nav/sim_enabled")
 
 def getPaths():
     global location_collect

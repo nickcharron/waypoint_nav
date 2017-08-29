@@ -22,17 +22,17 @@
 
   <!-- Run collect_gps_waypoints node -->
   	<node pkg="outdoor_waypoint_nav" type="joy_launch_control_continuous.py" name="joy_launch_control" output="screen"/>
-			<param name="collect_button_num" value="$(arg collect_button_num)" type="int" />
-			<param name="collect_button_sym" value="$(arg collect_button_sym)" type="string" />
-			<param name="send_button_num" value="$(arg send_button_num)" type="int" />
-			<param name="send_button_sym" value="$(arg send_button_sym)" type="string" />
-			<param name="calibrate_button_num" value="$(arg calibrate_button_num)" type="int" />
-			<param name="calibrate_button_sym" value="$(arg calibrate_button_sym)" type="string" />
-			<param name="abort_button_num" value="$(arg abort_button_num)" type="int" />
-			<param name="abort_button_sym" value="$(arg abort_button_sym)" type="string" />
-			<param name="continue_button_num" value="$(arg continue_button_num)" type="int" />
-			<param name="continue_button_sym" value="$(arg continue_button_sym)" type="string" />
-			<param name="sim_enabled" value="$(arg simulation_enabled)" type="bool" />
+			<param name="/outdoor_waypoint_nav/collect_button_num" value="$(arg collect_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/collect_button_sym" value="$(arg collect_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/send_button_num" value="$(arg send_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/send_button_sym" value="$(arg send_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/calibrate_button_num" value="$(arg calibrate_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/calibrate_button_sym" value="$(arg calibrate_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/abort_button_num" value="$(arg abort_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/abort_button_sym" value="$(arg abort_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/continue_button_num" value="$(arg continue_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/continue_button_sym" value="$(arg continue_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/sim_enabled" value="$(arg simulation_enabled)" type="bool" />
 
 </launch>
 			

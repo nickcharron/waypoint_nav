@@ -17,8 +17,8 @@ bool zero_altitude, broadcast_utm_transform, publish_filtered_gps, use_odometry_
 
 void getParams()
 {
-    ros::param::get("x_vel", x_vel);
-    ros::param::get("x_vel_time", x_vel_time);
+    ros::param::get("/outdoor_waypoint_nav/x_vel", x_vel);
+    ros::param::get("/outdoor_waypoint_nav/x_vel_time", x_vel_time);
     ros::param::get("/navsat_transform/frequency", frequency);
     ros::param::get("/navsat_transform/delay", delay);
     ros::param::get("/navsat_transform/magnetic_declination_radians", magnetic_declination_radians);
@@ -67,9 +67,9 @@ int main(int argc, char **argv)
     ROS_INFO("Initiated calibration node");
 
     // Initialise publishers and subscribers
-    ros::Subscriber sub_odom = n.subscribe("/odometry/filtered_map", 100, filtered_odom_CB);
+    ros::Subscriber sub_odom = n.subscribe("odometry/filtered_map", 100, filtered_odom_CB);
     ros::Publisher pubVel = n.advertise<geometry_msgs::Twist>("husky_velocity_controller/cmd_vel",100);
-    ros::Publisher pubCalibrationNodeEnded = n.advertise<std_msgs::Bool>("outdoor_waypoint_nav/calibrate_status",100);
+    ros::Publisher pubCalibrationNodeEnded = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/calibrate_status",100);
 
     // Get parameters from parameer server
     getParams();
@@ -114,7 +114,7 @@ int main(int argc, char **argv)
     }
 
     ROS_INFO("Heading Calibration Complete");
-    
+
     // Notify joy_launch_control that collection is complete
         std_msgs::Bool node_ended;
         node_ended.data = true;

@@ -187,7 +187,7 @@ int main(int argc, char** argv)
 	//Get Longitude and Latitude goals from text file
 
 		//Count number of waypoints 
-		ros::param::get("coordinates_file", path_local);
+		ros::param::get("/outdoor_waypoint_nav/coordinates_file", path_local);
 		numWaypoints = countWaypointsInFile(path_local);
 
 		//Reading waypoints from text file and output results

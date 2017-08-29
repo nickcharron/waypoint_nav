@@ -2,14 +2,10 @@
 
 <launch>
 
-  <group ns="controller_1">
-  <node pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous1" name="gps_waypoint" output="screen"/>
-	<param name="coordinates_file" value="/waypoint_files/points_sim.txt" type="string" />
-  </group>
+  <node ns="/outdoor_waypoint_nav/controller_1" pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous1" name="gps_waypoint" output="screen"/>
+	<param name="/outdoor_waypoint_nav/coordinates_file" value="/waypoint_files/points_sim.txt" type="string" />
   
-  <group ns="controller_2">
-  <node pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous2" name="gps_waypoint" output="screen"/>
-	<param name="coordinates_file" value="/waypoint_files/points_sim.txt" type="string" />		
-	</group>
+  <node ns="/outdoor_waypoint_nav/controller_2" pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous2" name="gps_waypoint" output="screen"/>
+	<param name="/outdoor_waypoint_nav/coordinates_file" value="/waypoint_files/points_sim.txt" type="string" />		
 
 </launch>

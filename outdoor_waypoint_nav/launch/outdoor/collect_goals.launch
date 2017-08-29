@@ -14,13 +14,13 @@
 	<arg name="coordinates_file_dir" value="/waypoint_files/points_outdoor.txt" />
 
   <!-- Run collect_gps_waypoints node -->
-  	<node pkg="outdoor_waypoint_nav" type="collect_gps_waypoints" name="collect_gps_waypoints" output="screen"/>
+  	<node ns="/outdoor_waypoint_nav" pkg="outdoor_waypoint_nav" type="collect_gps_waypoints" name="collect_gps_waypoints" output="screen"/>
 			<!-- WARNING: This will replace any file in this directory with the same name.-->
-			<param name="coordinates_file" value="$(arg coordinates_file_dir)" type="string" />
-			<param name="collect_button_num" value="$(arg collect_button_num)" type="int" />
-			<param name="end_button_num" value="$(arg end_button_num)" type="int" />
-			<param name="collect_button_sym" value="$(arg collect_button_sym)" type="string" />
-			<param name="end_button_sym" value="$(arg end_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/coordinates_file" value="$(arg coordinates_file_dir)" type="string" />
+			<param name="/outdoor_waypoint_nav/collect_button_num" value="$(arg collect_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/end_button_num" value="$(arg end_button_num)" type="int" />
+			<param name="/outdoor_waypoint_nav/collect_button_sym" value="$(arg collect_button_sym)" type="string" />
+			<param name="/outdoor_waypoint_nav/end_button_sym" value="$(arg end_button_sym)" type="string" />
 
 </launch>
 			

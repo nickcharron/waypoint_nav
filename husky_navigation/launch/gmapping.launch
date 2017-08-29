@@ -3,10 +3,12 @@
 
 <launch>
 
-  <arg name="scan_topic" default="scan" />
+  <arg name="scan_topic" default="/scan" />
+  <arg name="map_topic" default="map" />
 
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="log" >
+  <node ns="/outdoor_waypoint_nav" pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="log" >
     
+
     <!-- Setting frames -->
     <param name="odom_frame" value="odom_gmapping"/>
     <param name="base_frame" value="base_link"/>
@@ -72,6 +74,8 @@
     <param name="lasamplestep" value="0.005"/>
 
     <remap from="scan" to="$(arg scan_topic)"/>
+    <remap from="map" to="$(arg map_topic)"/>
+
   </node>
 
 
