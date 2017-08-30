@@ -2,6 +2,7 @@
 
 <launch>
 
+  <group ns="outdoor_waypoint_nav">
   <!-- Load current navsat parameters -->
   <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/navsat_params_sim.yaml" />
 
@@ -11,7 +12,9 @@
     <param name="/outdoor_waypoint_nav/x_vel" value="0.5" />
 
     <!-- set how long to publish velocity command (s) -->
-    <param name="/outdoor_waypoint_nav/x_vel_time" value="10" />
+    <param name="/ourdoor_waypoint_nav/x_vel_time" value="10" />
     
+  </group>
+
 </launch>
 

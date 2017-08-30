@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <group ns="outdoor_waypoint_nav"> 
+  <group ns="/outdoor_waypoint_nav"> 
   <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/ekf_params.yaml" />
   <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/navsat_params.yaml" />
   

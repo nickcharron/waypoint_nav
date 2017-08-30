@@ -19,15 +19,15 @@ void getParams()
 {
     ros::param::get("/outdoor_waypoint_nav/x_vel", x_vel);
     ros::param::get("/outdoor_waypoint_nav/x_vel_time", x_vel_time);
-    ros::param::get("/navsat_transform/frequency", frequency);
-    ros::param::get("/navsat_transform/delay", delay);
-    ros::param::get("/navsat_transform/magnetic_declination_radians", magnetic_declination_radians);
-    ros::param::get("/navsat_transform/yaw_offset", yaw_offset);
-    ros::param::get("/navsat_transform/zero_altitude", zero_altitude);
-    ros::param::get("/navsat_transform/broadcast_utm_transform", broadcast_utm_transform);
-    ros::param::get("/navsat_transform/publish_filtered_gps", publish_filtered_gps);
-    ros::param::get("/navsat_transform/use_odometry_yaw", use_odometry_yaw);
-    ros::param::get("/navsat_transform/wait_for_datum", wait_for_datum);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/frequency", frequency);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/delay", delay);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/magnetic_declination_radians", magnetic_declination_radians);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/yaw_offset", yaw_offset);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/zero_altitude", zero_altitude);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/broadcast_utm_transform", broadcast_utm_transform);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/publish_filtered_gps", publish_filtered_gps);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/use_odometry_yaw", use_odometry_yaw);
+    ros::param::get("/outdoor_waypoint_nav/navsat_transform/wait_for_datum", wait_for_datum);
 }
 
 void writeParams(std::string path_to_param_file, double heading_err)
