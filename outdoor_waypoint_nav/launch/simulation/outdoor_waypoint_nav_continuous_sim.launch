@@ -18,7 +18,7 @@
     <include file="$(find outdoor_waypoint_nav)/launch/include/localization_run_sim.launch"/>
 
   <!-- Run rviz -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find outdoor_waypoint_nav)/rviz_config/model.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find outdoor_waypoint_nav)/rviz_config/outdoor_waypoint_nav_continuous_rviz.rviz" />
 
   <!-- Run husky_navigation to start move_base -->
     <include file="$(find husky_navigation)/launch/move_base_nav_continuous.launch" />

@@ -3,7 +3,7 @@
 <launch>
 
   <group ns="controller_1">
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base1" > <!--output="screen"-->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" > <!--output="screen"-->
     
     <rosparam file="$(find husky_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find husky_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -17,14 +17,15 @@
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
 
     <remap from="odom" to="/outdoor_waypoint_nav/odometry/filtered_map" />
-    <remap from="/map" to="/outdoor_waypoint_nav/map"/>
+    <remap from="map" to="/outdoor_waypoint_nav/map"/>
     <remap from="cmd_vel" to="/cmd_vel1" />
+    <remap from="scan" to="/scan" />
 
   </node>
   </group>
 
   <group ns="controller_2">
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base2" > <!--output="screen"-->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" > <!--output="screen"-->
     
     <rosparam file="$(find husky_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find husky_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -38,8 +39,9 @@
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
 
     <remap from="odom" to="/outdoor_waypoint_nav/odometry/filtered_map" />
-    <remap from="/map" to="/outdoor_waypoint_nav/map"/>
+    <remap from="map" to="/outdoor_waypoint_nav/map"/>
     <remap from="cmd_vel" to="/cmd_vel2" />
+    <remap from="scan" to="/scan" />
 
   </node>
   </group>

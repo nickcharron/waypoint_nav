@@ -2,10 +2,16 @@
 
 <launch>
 
+	<arg name="goal_Tolerance" value="1" />
+
   <node ns="/outdoor_waypoint_nav/controller_1" pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous1" name="gps_waypoint" output="screen"/>
 	<param name="/outdoor_waypoint_nav/coordinates_file" value="/waypoint_files/points_sim.txt" type="string" />
-  
+  <param name="/outdoor_waypoint_nav/goalTolerance" value="$(arg goal_Tolerance)" type="double" />
+
   <node ns="/outdoor_waypoint_nav/controller_2" pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous2" name="gps_waypoint" output="screen"/>
 	<param name="/outdoor_waypoint_nav/coordinates_file" value="/waypoint_files/points_sim.txt" type="string" />		
+  <param name="/outdoor_waypoint_nav/goalTolerance" value="$(arg goal_Tolerance)" type="double" />
+
+  <node ns="/outdoor_waypoint_nav" pkg="outdoor_waypoint_nav" type="switch_controllers" name="switch_controllers" output="screen" />
 
 </launch>

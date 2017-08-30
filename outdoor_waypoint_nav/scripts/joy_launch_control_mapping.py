@@ -142,7 +142,7 @@ def check_buttons():
     if buttons_array[0] == 1:
         while buttons_array[0] == 1:    # Wait for button to be released
             pass
-        rospy.loginfo("Starting collect_goals_sim.launch...")
+        rospy.loginfo("Starting collect_goals.launch...")
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         launch = roslaunch.parent.ROSLaunchParent(uuid,[location_collect])
@@ -152,7 +152,7 @@ def check_buttons():
     elif buttons_array[1] == 1:
         while buttons_array[1] ==1:
             pass
-        rospy.loginfo("Starting send_goals_sim.launch...")
+        rospy.loginfo("Starting send_goals.launch...")
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         launch = roslaunch.parent.ROSLaunchParent(uuid, [location_send])

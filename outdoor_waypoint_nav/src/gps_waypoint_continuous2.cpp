@@ -13,7 +13,7 @@
 
 // initialize variables
 
-	typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient2; //create a type definition for a client called MoveBaseClient
+	typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient; //create a type definition for a client called MoveBaseClient
 
 	int count = 0, waypointCount = 0, wait_count = 0;
     double lati=0, longi=0, numWaypoints=0, latiGoal, longiGoal, latiNext, longiNext, x, y, goal_tolerance;
@@ -40,7 +40,7 @@ int countWaypointsInFile(std::string path_local)
 		}
 		count = count-1;
 		numWaypoints = count/2;
-		ROS_INFO("%.0f GPS waypoints were read", numWaypoints);
+		//ROS_INFO("%.0f GPS waypoints were read", numWaypoints);
    		fileCount.close();
 	}
 	else
@@ -62,13 +62,13 @@ std::vector<std::pair<double,double> > getWaypoints(std::string path_local)
   		waypointVect.push_back(std::make_pair<double,double>(lati,longi));
 	}
 	fileRead.close();
-	
+
 	//Outputting vector
-	ROS_INFO("The following GPS Waypoints have been set:");
-	for(std::vector<std::pair<double, double> >::iterator iterDisp=waypointVect.begin(); iterDisp!=waypointVect.end(); iterDisp++)
-	{
-		ROS_INFO("%.9g %.9g", iterDisp->first, iterDisp->second);
-	}
+	// ROS_INFO("The following GPS Waypoints have been set:");
+	// for(std::vector<std::pair<double, double> >::iterator iterDisp=waypointVect.begin(); iterDisp!=waypointVect.end(); iterDisp++)
+	// {
+	// 	ROS_INFO("%.9g %.9g", iterDisp->first, iterDisp->second);
+	// }
 	return waypointVect;
 }
 
@@ -149,26 +149,20 @@ void controller_1_CB(const std_msgs::Bool::ConstPtr& controller_1_done_msg)
 	}
 }
 
-void waitToReachGoal(double map_x, double map_y, double goal_tolerance)
-{
-	while(sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)) > goal_tolerance) 
-	{
-		// do nothing
-	}
-}
+void waitToReachGoal(double map_x, double map_y, double goal_tolerance);
 
 int main(int argc, char** argv)
 {
 	ros::init(argc, argv, "gps_waypoint_2"); //initiate node called gps_waypoint
 	ros::NodeHandle n;
 	ROS_INFO("Initiated gps_waypoint node 2");
-	MoveBaseClient2 ac2("move_base", true);
+	MoveBaseClient ac2("/controller_2/move_base", true);
 		//construct an action client that we use to communication with the action named move_base1.
 		//Setting true is telling the constructor to start ros::spin()
 
 	// Initiate publisher to send end of node message and publisher to say which node is publishing the proper vel commands
 		ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/waypoint_following_status",1000);
-		ros::Publisher pub_controller_2_done = n.advertise<std_msgs::Bool>("/outdoor_waypoint_nav/controller_2_done", 1000);
+		ros::Publisher pub_controller_2_done = n.advertise<std_msgs::Bool>("/controller_2/controller_2_done", 1000);
 
 	// Initiate subscriber to subscribe to filtered odometery
 		ros::Subscriber sub_odom = n.subscribe("/outdoor_waypoint_nav/odometry/filtered_map", 1000, odometry_CB);
@@ -208,8 +202,6 @@ int main(int argc, char** argv)
 		//Setting goal:
 		  latiGoal = iter->first;
 		  longiGoal = iter->second;
-		  ROS_INFO("Received Latitude goal:%.8f", latiGoal);
-	      ROS_INFO("Received longitude goal:%.8f", longiGoal);	
 
 		  //set next goal if not at last waypoint
 		  if(iter < (waypointVect.end()-1))
@@ -217,6 +209,9 @@ int main(int argc, char** argv)
 			  iter++;
 			  latiNext = iter->first;
  			  longiNext = iter->second;
+			  ros::Duration(0.5).sleep(); // sleeping for half a second to let controller 1 print to window first
+			  ROS_INFO("Controller 2: Received Latitude goal:%.8f", latiNext);
+	      	  ROS_INFO("Controller 2: Received longitude goal:%.8f", longiNext);
 			  //iter--;  - we want to skip every other goal
 		  }
 		  else
@@ -224,32 +219,39 @@ int main(int argc, char** argv)
 			  final_point = true;
 		  }
 
-    	//Convert lat/long to utm:
-		  UTM_point = latLongtoUTM(latiGoal, longiGoal);
-		  UTM_next = latLongtoUTM(latiNext, longiNext);
-
-		//Transform UTM to map point in odom frame
-		  map_point = UTMtoMapPoint(UTM_point);
-		  map_next = UTMtoMapPoint(UTM_next);
-
-    	//Build goal to send to move_base
-		  move_base_msgs::MoveBaseGoal goal = buildGoal(map_next); // controller 2 goes to next map point
-
-		//Send Goals
-		  ros::param::get("/outdoor_waypoint_nav/goalTolerance", goal_tolerance);
-	  
-		  // wait for controller 1 to give signal
-		  while(controller_1_done.data == false)
+		  if(final_point != true)
 		  {
-			  // wait
-		  }
-		  ROS_INFO("Sending goal");
-		  ac2.sendGoal(goal); //push current goal to move_base node
-		  waitToReachGoal(map_point.point.x, map_point.point.y, goal_tolerance);
-	      controller_2_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
-		  pub_controller_2_done.publish(controller_2_done);
-		  controller_2_done.data = false; //reset 
-		  		   		  		  
+			//Convert lat/long to utm:
+			//   UTM_point = latLongtoUTM(latiGoal, longiGoal);
+		  		UTM_next = latLongtoUTM(latiNext, longiNext);
+
+			//Transform UTM to map point in odom frame
+			//   map_point = UTMtoMapPoint(UTM_point);
+		  		map_next = UTMtoMapPoint(UTM_next);
+
+    		//Build goal to send to move_base
+		  		move_base_msgs::MoveBaseGoal goal = buildGoal(map_next); // controller 2 goes to next map point
+
+			//Send Goals
+		  		ros::param::get("/outdoor_waypoint_nav/goalTolerance", goal_tolerance);
+	  
+		  	// wait for controller 1 to give signal
+			  	ROS_INFO("Controller 2: Waiting for signal from Controller 1...");
+				while(controller_1_done.data == false)
+		  		{
+			  		ros::spinOnce();
+			  		// wait
+		  		}
+
+		  	ROS_INFO("Controller 2: Sending goal");
+		  	ac2.sendGoal(goal); //push current goal to move_base node
+		 	waitToReachGoal(map_next.point.x, map_next.point.y, goal_tolerance);
+		  	// ROS_INFO("Controller 2: Sending start command to controller 1.");
+	      	controller_2_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
+		  	pub_controller_2_done.publish(controller_2_done);
+		  	controller_2_done.data = false; //reset 
+		  } // else, you are on the last point so we do not need the second controller
+
 	} // End for loop iterating through waypoint vector
 	 
 	 ROS_INFO("Husky has reached all of its goals!!!\n");
@@ -265,3 +267,15 @@ int main(int argc, char** argv)
 	return 0;
 }
 
+void waitToReachGoal(double map_x, double map_y, double goal_tolerance)
+{
+	ROS_INFO("Controller 2: Waiting for robot to approach goal...");
+	// ROS_INFO("Controller 2: Goal Tolerance: %.1f m", goal_tolerance);
+	while(sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)) > goal_tolerance) 
+	{	
+		// std::cout << "Controller 2: Distance to Goal: " << sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)) << std::endl; 
+		// ros::Duration(1).sleep();
+		ros::spinOnce();
+	}
+	ROS_INFO("Controller 2: goal tolerance reached, switching to next goal...");
+}
