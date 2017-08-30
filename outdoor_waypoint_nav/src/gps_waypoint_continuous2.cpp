@@ -17,7 +17,7 @@
 
 	int count = 0, waypointCount = 0, wait_count = 0;
     double lati=0, longi=0, numWaypoints=0, latiGoal, longiGoal, latiNext, longiNext, x, y, goal_tolerance;
-	bool final_point = false;
+	bool end_on_controller_1 = false;
 
 	std::vector<std::pair<double,double> > waypointVect;
 	std::vector<std::pair<double, double> >::iterator iter; //init. iterator
@@ -204,7 +204,7 @@ int main(int argc, char** argv)
 		  longiGoal = iter->second;
 
 		  //set next goal if not at last waypoint
-		  if(iter < (waypointVect.end()-1))
+		  if(iter < (waypointVect.end()-2)) // this means that neither controller 1 or controller 2 are on the last waypoint so continue incrementing iter by 2
 		  {
 			  iter++;
 			  latiNext = iter->first;
@@ -212,14 +212,28 @@ int main(int argc, char** argv)
 			  ros::Duration(0.5).sleep(); // sleeping for half a second to let controller 1 print to window first
 			  ROS_INFO("Controller 2: Received Latitude goal:%.8f", latiNext);
 	      	  ROS_INFO("Controller 2: Received longitude goal:%.8f", longiNext);
-			  //iter--;  - we want to skip every other goal
+		  }
+		  else if(iter == (waypointVect.end()-2)) // this means that controller 1 is on the second last point so increment iter once more and shutdown after controller 2 is done
+		  {
+			  end_on_controller_1 = false;
+			  iter++;
+			  latiNext = iter->first;
+ 			  longiNext = iter->second;
+			  ros::Duration(0.5).sleep(); // sleeping for half a second to let controller 1 print to window first
+			  ROS_INFO("Controller 2: Received Latitude goal:%.8f", latiNext);
+	      	  ROS_INFO("Controller 2: Received longitude goal:%.8f", longiNext);
+		  }
+		  else if(iter == (waypointVect.end()-1)) // this means that controller 1 is on its last waypoint and controller 2 should wait for controller 1 to shutdown
+		  {
+			  end_on_controller_1 = true;
 		  }
 		  else
 		  {
-			  final_point = true;
+			  ROS_ERROR("Controller 2: Error with waypoint vector iterator.");
+			  ros::shutdown();			  
 		  }
 
-		  if(final_point != true)
+		  if(end_on_controller_1 == false) // continue using controller 2, else wait for controller 1 to end
 		  {
 			//Convert lat/long to utm:
 			//   UTM_point = latLongtoUTM(latiGoal, longiGoal);
@@ -247,23 +261,41 @@ int main(int argc, char** argv)
 		  	ac2.sendGoal(goal); //push current goal to move_base node
 		 	waitToReachGoal(map_next.point.x, map_next.point.y, goal_tolerance);
 		  	// ROS_INFO("Controller 2: Sending start command to controller 1.");
-	      	controller_2_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
-		  	pub_controller_2_done.publish(controller_2_done);
-		  	controller_2_done.data = false; //reset 
-		  } // else, you are on the last point so we do not need the second controller
+	      	if(iter != (waypointVect.end()-1))
+			{
+			  controller_2_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
+		  	  pub_controller_2_done.publish(controller_2_done);
+		  	  controller_2_done.data = false; //reset 
+			}
+			else
+			{
+        		ac2.waitForResult();
+				controller_2_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
+				pub_controller_2_done.publish(controller_2_done);
+
+				ROS_INFO("Husky has reached all of its goals!!!\n");
+
+	    		// Notify joy_launch_control that waypoint following is complete
+          			std_msgs::Bool node_ended;
+          			node_ended.data = true;
+          			pubWaypointNodeEnded.publish(node_ended);
+	  
+	    		ROS_INFO("Ending controller 2 node...");
+        		ros::shutdown();
+			}
+		  }
 
 	} // End for loop iterating through waypoint vector
-	 
-	 ROS_INFO("Husky has reached all of its goals!!!\n");
-	 ROS_INFO("Ending node...");
 
-	 // Notify joy_launch_control that waypoint following is complete
-     std_msgs::Bool node_ended;
-     node_ended.data = true;
-     pubWaypointNodeEnded.publish(node_ended);
+	if(end_on_controller_1 == false)
+	{ 
 
-	 ros::shutdown();
-     ros::spin();
+	}
+	
+	ROS_INFO("Ending controller 2 node...");
+    ros::shutdown();
+
+    ros::spin();
 	return 0;
 }
 

@@ -17,7 +17,7 @@
 
 	int count = 0, waypointCount = 0, wait_count = 0;
     double lati=0, longi=0, numWaypoints=0, latiGoal, longiGoal, latiNext, longiNext, x, y, goal_tolerance;
-	bool final_point = false;
+	bool end_on_controller_1=false;
 
 	std::vector<std::pair<double,double> > waypointVect;
 	std::vector<std::pair<double, double> >::iterator iter; //init. iterator
@@ -205,17 +205,23 @@ int main(int argc, char** argv)
 		  ROS_INFO("Controller 1: Received Latitude goal:%.8f", latiGoal);
 	      ROS_INFO("Controller 1: Received longitude goal:%.8f", longiGoal);	
 
-		  //set next goal if not at last waypoint
-		  if(iter < (waypointVect.end()-1))
+		  if(iter < (waypointVect.end()-2)) // keep incrementing iter, we want to increment by two each time
 		  {
 			  iter++;
-			//   latiNext = iter->first;
- 			//   longiNext = iter->second;
-			  //iter--;  - we want to skip every other goal
+		  }
+		  else if(iter == (waypointVect.end()-2)) // this means controller 1 is on its last waypoint point but controller 2 has another to go
+		  {
+			  iter++;
+			  end_on_controller_1 = false;
+		  }
+		  else if(iter == (waypointVect.end()-1))  // this means that controller 1 is on THE last waypoint and should shutdown when it's done
+		  {
+			  end_on_controller_1 = true;			
 		  }
 		  else
 		  {
-			  final_point = true;
+			  ROS_ERROR("Controller 1: Error with waypoint vector iterator.");
+			  ros::shutdown();
 		  }
 
     	//Convert lat/long to utm:
@@ -249,29 +255,39 @@ int main(int argc, char** argv)
 		  ros::param::get("/outdoor_waypoint_nav/goalTolerance", goal_tolerance);
 		  ROS_INFO("Controller 1: Sending goal");
 		  ac1.sendGoal(goal); //push current goal to move_base node
+
+		if(end_on_controller_1 == false) // if this is the last point then we want to skip this step
+		{ 
 		  waitToReachGoal(map_point.point.x, map_point.point.y, goal_tolerance);
-	    //   ROS_INFO("Controller 1: Sending start command to controller 2");   
+	      //   ROS_INFO("Controller 1: Sending start command to controller 2");   	 
 		  controller_1_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
 	      pub_controller_1_done.publish(controller_1_done);
 	      controller_1_done.data = false; //reset 
+		}
+		else //if on last waypoint, wait for it to acheive its goal
+		{
+		    ROS_ERROR("Controller 1: Waiting for result");
+		 	ac1.waitForResult();
+		 	ROS_ERROR("Controller 1: have result");
+   		    //controller_1_done.data = true; // once done waiting, publish that this controller is done, and to switch to the next
+	        //pub_controller_1_done.publish(controller_1_done);
+	      
+		 	ROS_INFO("Husky has reached all of its goals!!!\n");
 
+	 	 	// Notify joy_launch_control that waypoint following is complete
+     	    std_msgs::Bool node_ended;
+     	    node_ended.data = true;
+     	    pubWaypointNodeEnded.publish(node_ended);
+
+	 	 	ROS_INFO("Ending controller 1 node...");
+	 	 	ros::shutdown();
+		}
 	} // End for loop iterating through waypoint vector
-	 
-	 // if controller 1 ended on the last waypoint then shutdown, else wait for controller 2 to shutdown
-	 if(final_point == true)
-	 {
-	 	ROS_INFO("Husky has reached all of its goals!!!\n");
-	 	ROS_INFO("Ending node...");
-
-	 	// Notify joy_launch_control that waypoint following is complete
-     	std_msgs::Bool node_ended;
-     	node_ended.data = true;
-     	pubWaypointNodeEnded.publish(node_ended);
-
-	 	ros::shutdown();
-	 }
-	 
-     ros::spin();
+	
+	ROS_INFO("Ending controller 1 node...");
+	ros::shutdown();
+		 
+    ros::spin();
 	return 0;
 }
 
