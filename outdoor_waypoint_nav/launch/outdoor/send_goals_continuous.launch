@@ -2,7 +2,7 @@
 
 <launch>
 
-	<arg name="goal_Tolerance" value="1.5" />
+	<arg name="goal_Tolerance" value="1" />
 
   <node ns="/outdoor_waypoint_nav/controller_1" pkg="outdoor_waypoint_nav" type="gps_waypoint_continuous1" name="gps_waypoint" output="screen"/>
 	<param name="/outdoor_waypoint_nav/coordinates_file" value="/waypoint_files/points_outdoor.txt" type="string" />
