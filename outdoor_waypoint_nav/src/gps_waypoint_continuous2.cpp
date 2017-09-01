@@ -170,7 +170,8 @@ int main(int argc, char** argv)
 
 	controller_1_done.data = false; 
 	controller_2_done.data = false;  
-
+	ros::param::get("/outdoor_waypoint_nav/goalTolerance", goal_tolerance);
+	  
     //wait for the first action server to come up
    		while(!ac2.waitForServer(ros::Duration(5.0)))
 		{
@@ -245,18 +246,18 @@ int main(int argc, char** argv)
 
     		//Build goal to send to move_base
 		  		move_base_msgs::MoveBaseGoal goal = buildGoal(map_next); // controller 2 goes to next map point
-
-			//Send Goals
-		  		ros::param::get("/outdoor_waypoint_nav/goalTolerance", goal_tolerance);
-	  
-		  	// wait for controller 1 to give signal
+ 		
+		  	// wait for controller 1 to give signal to start
 			  	ROS_INFO("Controller 2: Waiting for signal from Controller 1...");
 				while(controller_1_done.data == false)
 		  		{
 			  		ros::spinOnce();
 			  		// wait
 		  		}
+				ROS_INFO("Controller 2: Received start signal from Controller 1");
+				controller_1_done.data = false;
 
+			//Send Goals
 		  	ROS_INFO("Controller 2: Sending goal");
 		  	ac2.sendGoal(goal); //push current goal to move_base node
 		 	waitToReachGoal(map_next.point.x, map_next.point.y, goal_tolerance);
@@ -295,19 +296,46 @@ int main(int argc, char** argv)
 	ROS_INFO("Ending controller 2 node...");
     ros::shutdown();
 
-    ros::spin();
+    //ros::spin();
 	return 0;
 }
 
 void waitToReachGoal(double map_x, double map_y, double goal_tolerance)
 {
+	ros::Time time_last = ros::Time::now();
+	ros::Time time_last_distance_check = ros::Time::now();
+	double last_distance_to_goal = sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)), current_distance_to_goal;
+	bool is_distance_changing = true;
+
 	ROS_INFO("Controller 2: Waiting for robot to approach goal...");
 	// ROS_INFO("Controller 2: Goal Tolerance: %.1f m", goal_tolerance);
-	while(sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)) > goal_tolerance) 
+	while(sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)) > goal_tolerance && is_distance_changing) 
 	{	
-		// std::cout << "Controller 2: Distance to Goal: " << sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y)) << std::endl; 
-		// ros::Duration(1).sleep();
+		current_distance_to_goal = sqrt((map_x-x)*(map_x-x)+(map_y-y)*(map_y-y));
+
+		if((ros::Time::now() - time_last) > ros::Duration(1))
+		{ 
+			ROS_INFO("Controller 2: Distance to Goal: %.2f", current_distance_to_goal);
+			time_last = ros::Time::now(); 
+		}
+		if((ros::Time::now() - time_last_distance_check) > ros::Duration(7))
+		{
+			// check that it has moved enough
+			if( abs(current_distance_to_goal - last_distance_to_goal) < 0.1 )
+			{
+				is_distance_changing = false;
+			}
+			time_last_distance_check = ros::Time::now();
+			last_distance_to_goal = current_distance_to_goal;
+		}
 		ros::spinOnce();
 	}
-	ROS_INFO("Controller 2: goal tolerance reached, switching to next goal...");
+	if(is_distance_changing == false)
+	{
+		ROS_WARN("Controller 2: Distance to goal not changing, switching to next goal");
+	}
+	else
+	{
+		ROS_INFO("Controller 2: goal tolerance reached, sending start signal to controller 2...");
+	}
 }

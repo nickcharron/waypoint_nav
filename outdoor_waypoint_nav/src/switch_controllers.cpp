@@ -107,8 +107,8 @@ int main(int argc, char** argv)
 				{
 					// this means the second move_base has started spitting our commands so let's switch
 					current_vel = 2;
-					ROS_INFO("Switch_controllers: Switching vel cmds from controller 1 to 2");
-					ROS_INFO("Switch_controllers: Canceling controller 1's current goal");
+					ROS_INFO("Switching vel cmds from controller 1 to 2");
+					ROS_INFO("Canceling controller 1's current goal");
 					ac1.cancelAllGoals();
 
 				} // else, stay with 1
@@ -117,7 +117,7 @@ int main(int argc, char** argv)
 				{
 					// this means 2 was publishing but then 1 started publishing again so switch back to 1
 					current_vel = 1;
-					ROS_INFO("switch_controllers: Switching vel cmds from controller 2 to 1");
+					ROS_INFO("Switching vel cmds from controller 2 to 1");
 					ROS_INFO("Canceling controller 2's current goal");
 					ac2.cancelAllGoals();
 
@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 				{
 					pubVel.publish(vel_msg2);
 				}
-				rate.sleep();
+				//rate.sleep();
 		}
 	return 0;
 }

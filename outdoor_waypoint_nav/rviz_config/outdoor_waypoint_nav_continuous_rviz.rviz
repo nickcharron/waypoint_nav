@@ -210,13 +210,13 @@ Visualization Manager:
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Keep: 1000
       Length: 0.5
       Name: Raw Wheel Odom
       Position Tolerance: 0.1
       Topic: /husky_velocity_controller/odom
-      Value: true
+      Value: false
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 255; 255; 0
@@ -365,7 +365,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 13.2524
+      Distance: 23.0871
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -398,5 +398,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1535
-  X: 65
-  Y: 355
+  X: 1985
+  Y: 204
