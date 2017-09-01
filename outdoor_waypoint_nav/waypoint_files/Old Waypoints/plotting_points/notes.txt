@@ -1,0 +1,17 @@
+sim 1: 30 points collected at 5hz
+sim 2: 50 points collected at 5hz
+sim 6: 700 points at 0.1 hz with noise: 0.01   0.01   0.01 (std. dev.)
+sim 7: 700 points at 0.1 hz with noise: 0.0394 0.0410 0.1
+sim 8: 700 points at 0.1 hz with noise: 0.198  0.202  0.1 
+sim 9: 700 points at 0.1 hz with noise: 0.387  0.825  0.1 
+
+outdoor 1: Novatel 50 points collected at 5hz
+outdoor 2: Garmin 50 points collected at 5hz
+outdoor 3: Garmin 200 points collected at 20hz
+outdoor 4: Novatel 700 points at 0.1hz (10s)
+	-> COV: 0.039441131853440   0.014529742529130		COV = [ xx yx = [ EE NE
+   		0.014529742529130   0.041046684501599			xy yy]	  EN NN ]
+
+outdoor 5: Garmin 700 points at 0.1hz (10s)
+	-> COV: 0.149393557456404   0.252651894700915
+   		0.252651894700915   0.681154404066945
