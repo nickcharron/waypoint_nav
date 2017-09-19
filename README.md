@@ -18,6 +18,9 @@ The outdoor_waypoint_nav package within waypoint_nav includes the following cust
 	- plot_gps_waypoints to save raw data from the GPS for plotting purposes
 	- gps_waypoint_mapping to combine waypoint navigation with Mandala Robotics' 3D mapping software for autonomous 3D mapping
   
-  For additional information and instructions on how to use the package, see Clearpath Robotic's blog post and tutorial (to be posted soon)
+  For additional information and instructions on how to use the package, see Clearpath Robotic's blog post and tutorial 
+  
+  	Tutorial: http://www.clearpathrobotics.com/assets/guides/husky/HuskyGPSWaypointNav.html
+  	Blog: to be posted soon.
   
 Video demonstrations can be found at my Youtube Channel: https://www.youtube.com/channel/UC3FoqSLn12-dKOQ1Sn0xbFQ/videos?view_as=subscriber
