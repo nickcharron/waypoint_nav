@@ -12,9 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   roslib
+  roslaunch
 )
 
 catkin_package()
+roslaunch_add_file_check(launch)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
@@ -40,3 +42,7 @@ target_link_libraries(plot_gps_waypoints ${catkin_LIBRARIES})
 target_link_libraries(calibrate_heading ${catkin_LIBRARIES})
 target_link_libraries(safety_node ${catkin_LIBRARIES})
 target_link_libraries(switch_controllers ${catkin_LIBRARIES})
+
+install(DIRECTORY  launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
