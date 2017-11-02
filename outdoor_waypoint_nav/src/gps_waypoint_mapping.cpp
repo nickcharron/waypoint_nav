@@ -18,7 +18,6 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 
 std::vector<std::pair<double,double> > waypointVect;
 std::vector<std::pair<double, double> >::iterator iter; //init. iterator
-double lati=0, longi=0;
 geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
 int count = 0, waypointCount = 0, wait_count = 0;
 double numWaypoints = 0;
@@ -52,6 +51,8 @@ int countWaypointsInFile(std::string path_local)
 
 std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
 {
+    double lati=0, longi=0;
+
     path_abs = ros::package::getPath("outdoor_waypoint_nav") + path_local;
     std::ifstream fileRead(path_abs.c_str());
     for(int i = 0; i < numWaypoints; i++)

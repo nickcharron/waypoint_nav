@@ -491,7 +491,7 @@ SlamGMapping::initMapper(const sensor_msgs::LaserScan& scan)
   ROS_ASSERT(gsp_laser_);
 
   GMapping::SensorMap smap;
-  smap.insert(make_pair(gsp_laser_->getName(), gsp_laser_));
+  smap.insert(std::make_pair(gsp_laser_->getName(), gsp_laser_));
   gsp_->setSensorMap(smap);
 
   gsp_odom_ = new GMapping::OdometrySensor(odom_frame_);
