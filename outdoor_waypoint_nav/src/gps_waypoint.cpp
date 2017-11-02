@@ -13,17 +13,18 @@
 
 // initialize variables
 
-	typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient; //create a type definition for a client called MoveBaseClient
+typedef actionlib::SimpleActionClient <move_base_msgs::MoveBaseAction>
+MoveBaseClient; //create a type definition for a client called MoveBaseClient
 
-	std::vector<std::pair<double,double> > waypointVect;
-	std::vector<std::pair<double, double> >::iterator iter; //init. iterator
-	double lati=0, longi=0;
-	geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
-	int count = 0, waypointCount = 0, wait_count = 0;
-	double numWaypoints = 0;
-    double latiGoal, longiGoal, latiNext, longiNext;
-	std::string utm_zone;
-	std::string path_local, path_abs;
+std::vector <std::pair<double, double>> waypointVect;
+std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
+double lati = 0, longi = 0;
+geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
+int count = 0, waypointCount = 0, wait_count = 0;
+double numWaypoints = 0;
+double latiGoal, longiGoal, latiNext, longiNext;
+std::string utm_zone;
+std::string path_local, path_abs;
 
 
 int countWaypointsInFile(std::string path_local)
@@ -64,7 +65,8 @@ std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
 
     //Outputting vector
     ROS_INFO("The following GPS Waypoints have been set:");
-    for(std::vector< std::pair < double, double>>::iterator iterDisp = waypointVect.begin(); iterDisp != waypointVect.end();  iterDisp++)
+    for(std::vector < std::pair < double, double >> ::iterator iterDisp = waypointVect.begin(); iterDisp != waypointVect.end();
+    iterDisp++)
     {
         ROS_INFO("%.9g %.9g", iterDisp->first, iterDisp->second);
     }
