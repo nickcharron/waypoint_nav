@@ -97,7 +97,7 @@ add_executable(hector_mapping
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(hector_mapping hector_mapping_generate_messages_cpp)
+add_dependencies(hector_mapping hector_mapping_nav_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(hector_mapping
