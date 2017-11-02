@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <ros/package.h>
+#include <utility>
 #include <fstream>
 #include <iostream>
 #include <sensor_msgs/NavSatFix.h>
@@ -8,7 +9,7 @@
 #include <ros/duration.h>
 #include <ros/time.h>
 #include <math.h>
-#include <utility>
+
 
 
 bool collect_request;

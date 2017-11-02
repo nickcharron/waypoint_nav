@@ -1,6 +1,8 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include <fstream>
+#include <utility>
+#include <vector>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <robot_localization/navsat_conversions.h>
@@ -10,8 +12,7 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_listener.h>
 #include <math.h>
-#include <utility>
-#include <vector>
+
 
 // initialize variables
 
@@ -35,6 +36,7 @@ int countWaypointsInFile(std::string path_local)
     std::ifstream fileCount(path_abs.c_str());
     if(fileCount.is_open())
     {
+        double lati=0;
         while(!fileCount.eof())
         {
             fileCount >> lati;
@@ -62,7 +64,7 @@ std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
     {
         fileRead >> lati;
         fileRead >> longi;
-        waypointVect.push_back(std::make_pair<double, double>(lati, longi));
+        waypointVect.push_back(std::make_pair(lati, longi));
     }
     fileRead.close();
 

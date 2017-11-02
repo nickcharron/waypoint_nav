@@ -1,6 +1,8 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include <fstream>
+#include <utility>
+#include <vector>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <robot_localization/navsat_conversions.h>
@@ -8,8 +10,7 @@
 #include <std_msgs/Bool.h>
 #include <tf/transform_listener.h>
 #include <math.h>
-#include <utility>
-#include <vector>
+
 
 
 
@@ -20,7 +21,6 @@ MoveBaseClient; //create a type definition for a client called MoveBaseClient
 
 std::vector <std::pair<double, double>> waypointVect;
 std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
-double lati = 0, longi = 0;
 geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
 int count = 0, waypointCount = 0, wait_count = 0;
 double numWaypoints = 0;
@@ -35,6 +35,7 @@ int countWaypointsInFile(std::string path_local)
     std::ifstream fileCount(path_abs.c_str());
     if(fileCount.is_open())
     {
+        double lati = 0;
         while(!fileCount.eof())
         {
             fileCount >> lati;
@@ -55,13 +56,15 @@ int countWaypointsInFile(std::string path_local)
 
 std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
 {
+    double lati = 0, longi = 0;
+
     path_abs = ros::package::getPath("outdoor_waypoint_nav") + path_local;
     std::ifstream fileRead(path_abs.c_str());
     for(int i = 0; i < numWaypoints; i++)
     {
         fileRead >> lati;
         fileRead >> longi;
-        waypointVect.push_back(std::make_pair<double, double>(lati, longi));
+        waypointVect.push_back(std::make_pair(lati, longi));
     }
     fileRead.close();
 
