@@ -10,6 +10,8 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_listener.h>
 #include <math.h>
+#include <utility>
+#include <vector>
 
 // initialize variables
 
