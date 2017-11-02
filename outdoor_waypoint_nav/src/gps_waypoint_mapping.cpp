@@ -33,6 +33,7 @@ int countWaypointsInFile(std::string path_local)
     std::ifstream fileCount(path_abs.c_str());
     if(fileCount.is_open())
     {
+        double lati = 0;
         while(!fileCount.eof())
         {
             fileCount >> lati;
@@ -53,7 +54,7 @@ int countWaypointsInFile(std::string path_local)
 
 std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
 {
-    double lati=0, longi=0;
+    double lati = 0, longi = 0;
 
     path_abs = ros::package::getPath("outdoor_waypoint_nav") + path_local;
     std::ifstream fileRead(path_abs.c_str());
@@ -67,7 +68,8 @@ std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
 
     //Outputting vector
     ROS_INFO("The following GPS Waypoints have been set:");
-    for(std::vector < std::pair < double, double>>::iterator iterDisp = waypointVect.begin(); iterDisp != waypointVect.end(); iterDisp++)
+    for(std::vector < std::pair < double, double >> ::iterator iterDisp = waypointVect.begin(); iterDisp != waypointVect.end();
+    iterDisp++)
     {
         ROS_INFO("%.9g %.9g", iterDisp->first, iterDisp->second);
     }
