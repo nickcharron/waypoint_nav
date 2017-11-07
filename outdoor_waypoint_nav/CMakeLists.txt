@@ -1,5 +1,9 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.3)
 project(outdoor_waypoint_nav)
+
+set(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_C_STANDARD 11)
 
 
 find_package(catkin REQUIRED COMPONENTS
@@ -8,9 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   roslib
+  roslaunch
 )
 
 catkin_package()
+roslaunch_add_file_check(launch)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
@@ -36,3 +42,7 @@ target_link_libraries(plot_gps_waypoints ${catkin_LIBRARIES})
 target_link_libraries(calibrate_heading ${catkin_LIBRARIES})
 target_link_libraries(safety_node ${catkin_LIBRARIES})
 target_link_libraries(switch_controllers ${catkin_LIBRARIES})
+
+install(DIRECTORY  launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
