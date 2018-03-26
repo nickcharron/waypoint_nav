@@ -1,14 +1,4 @@
 <?xml version="1.0"?>
 
 <launch>   
-  <node name="pointcloud_to_scan" pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" >
-    <remap from="cloud_in" to="velodyne_points" />
-    <param name="concurrency_level" value="0" />
-    <param name="scan_time" value="0.1" />
-    <param name="range_max" value="100.0" />
-    <param name="min_height" value="-0.1" />
-    <param name="max_height" value="0.1" />
-    <param name="angle_min" value="-3.14159" />
-    <param name="angle_max" value="3.14159" />
-  </node>
 </launch>
