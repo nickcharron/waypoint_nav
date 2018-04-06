@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <!-- We don't need any of this, since we already launch our IMU,  and the
-    driver transforms the data to the base_link frame. -->
+    <!-- We don't need any of the default content of this file , since we
+    already launch our IMU,  and the driver transforms the data to the
+    base_link frame. -->
 </launch>
