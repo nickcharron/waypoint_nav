@@ -1,45 +1,4 @@
 <?xml version="1.0"?>
 
 <launch>   
-  <node name="pointcloud_to_scan" pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" >
-    <remap from="cloud_in" to="velodyne_points" />
-    <param name="concurrency_level" value="0" />
-    <param name="scan_time" value="0.1" />
-    <param name="range_max" value="100.0" />
-    <param name="min_height" value="-0.1" />
-    <param name="max_height" value="0.1" />
-    <param name="angle_min" value="-3.14159" />
-    <param name="angle_max" value="3.14159" />
-  </node>
-
-
-{#   <!-- Launch lms1xx package -->#}
-{#    <arg name="host" default="192.168.0.114" />#}
-{#    <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">#}
-{#      <param name="host" value="$(arg host)" />#}
-{#      <param name="frame_id" value="laser_link" />#}
-{#      <remap from="/scan" to="/scan_unfiltered" />#}
-{#    </node>#}
-{##}
-{#    <!-- Launch laser scan filters to remove unwanted scan measurements -->#}
-{##}
-{#      <!-- creating bounding box around robot -->#}
-{#      <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="bounding_box_filter">#}
-{#        <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/bounding_box_filter.yaml" />#}
-{#	      <remap from="/scan" to="/scan_unfiltered" />#}
-{#	      <remap from="/scan_filtered" to="/scan" />#}
-{##}
-{#        <!-- change to this if using range filter as well #}
-{#      	<remap from="/scan_filtered" to="/scan_filtered_bb" />#}
-{#	-->#}
-{#      </node>#}
-{##}
-{#      <!-- Filtering out long range scans (we do not need them) -->   #}
-{#      <!-- filtering from gmapping launch file instead#}
-{#      <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="range_filter">#}
-{#        <rosparam command="load" file="$(find outdoor_waypoint_nav)/params/range_filter.yaml" />#}
-{#        <remap from="/scan" to="/scan_filtered_bb" />#}
-{#        <remap from="/scan_filtered" to="/scan" />#}
-{#      </node>#}
-{#      -->#}
 </launch>
