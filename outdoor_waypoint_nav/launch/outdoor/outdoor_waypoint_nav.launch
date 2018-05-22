@@ -18,7 +18,7 @@
     <include file="$(find outdoor_waypoint_nav)/launch/include/localization_run.launch"/>
 
     <!-- Run gmapping to create map -->
-    <include file="$(find husky_navigation)/launch/gmapping.launch" />
+    <!--<include file="$(find husky_navigation)/launch/gmapping.launch" />-->
 
     <!-- Launch hector_slam for laser odometry and mapping -->
     <!-- include file="$(find hector_mapping_nav)/launch/scanmatch_nav.launch" /-->
