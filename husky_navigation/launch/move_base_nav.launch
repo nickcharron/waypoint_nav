@@ -13,6 +13,7 @@
     <rosparam file="$(find husky_navigation)/params/move_base_params.yaml" command="load" />
     
     <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+    <!--<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>-->
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
 
     <remap from="odom" to="/outdoor_waypoint_nav/odometry/filtered_map" />

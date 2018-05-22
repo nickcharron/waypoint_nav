@@ -1,3 +1,75 @@
+DWAPlannerROS:
+
+# Acceleration limits. These have a strong effect
+# on trajectory generation, so make sure they're
+# reasonable.
+
+  acc_lim_x: 1.0  # measured
+#  acc_limit_trans: 2.5 # undocumented
+  acc_lim_y: 0.0
+  acc_lim_theta: 1.0
+
+# Velocity limits.
+
+  # should both be the same on our robot
+  max_trans_vel: 0.6
+  max_vel_x: 0.6
+
+  # note: this can be negative if we want to allow
+  # going backward (and indeed we might)
+  min_vel_x: 0.015
+
+  # slowest speed the motors can achieve,
+  # forward or backward
+  min_trans_vel: 0.1  # measured
+
+  # no strafing
+  max_vel_y: 0.0
+  min_vel_y: 0.0
+
+#  max_rot_vel: 1.0
+  min_rot_vel: 0.25 # measured
+
+# Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.5
+  xy_goal_tolerance: 0.5
+  latch_xy_goal_tolerance: true
+
+# Forward Simulation Parameters
+  sim_time: 3.0  # large effect on trajectory scoring!
+#  sim_granularity: 0.025
+#  vx_samples: 3
+  vy_samples: 0
+#  vtheta_samples: 20
+#  controller_frequency: 20
+#  penalize_negative_x: true
+
+# Trajectory Scoring Parameters
+#  path_distance_bias: 32.0
+#  goal_distance_bias: 24.0
+#  occdist_scale: 0.01
+#  forward_point_distance: 0.325
+#  stop_time_buffer: 0.2
+#  scaling_speed: 0.25
+#  max_scaling_factor: 0.2
+
+# Oscillation Prevention Parameters
+#  oscillation_reset_dist: 0.05
+
+# Global Plan Parameters
+#  prune_plan: true
+
+# Undocumented Parameters
+  # Nice for visualization. See source dwa_planner.cpp
+  publish_traj_pc: true       # DWA local planner trajectory cloud
+  publish_cost_grid_pc: true  # DWA local planner cost grid
+
+  # measured
+  trans_stopped_vel: 0.1
+
+  # measured
+  rot_stopped_vel: 0.25
+
 TrajectoryPlannerROS:
   max_vel_x: 0.6
   min_vel_x: 0.15 # Allowing velocities too low will will stop the obstacle avoidance because low velocities won't actually be high enough to move the robot
